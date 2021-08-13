@@ -3,24 +3,32 @@
 
 <head>
 	<style>
-	#parent {
-    text-align:center;
-}
-.block {
-  
-    text-align:left;
-}
-.center {
-    margin:auto;
-}
-.left {
-    margin:auto auto auto 0;
-}
-.right {
-    margin:auto 0 auto auto;
-}
+			.dialog-no-close .ui-dialog-titlebar {
+			  display: none;
+			}
+				
+			#parent {
+			text-align:center;
+			}
+			.block {
+			  
+				text-align:left;
+			}
+			.center {
+				margin:auto;
+			}
+			.left {
+				margin:auto auto auto 0;
+			}
+			.right {
+				margin:auto 0 auto auto;
+			}
 	</style>
     <!-- Required meta tags -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,28 +46,30 @@
     <title>Canvas Prints</title>
 </head>
 
-<body>
+<body> 
     <section>
         <div class="full" id="parent">
                         <div class="center-desk">
                            <div class="logo"> <a href="index.html"><img src="images/logo.png" alt="#"></a> </div>
                         </div>
                      </div>
-        <div id="playerContainer" style="height:500px; width:1900px"  class="preview"></div>
+        <div id="playerContainer" style="height:400px; width:100%"  class="preview"></div>
 		<div class="mui-panel" id="parent">
-				  <button class="mui-btn mui-btn--fab mui-btn--accent" onclick="zoominoutimage('Plus')"><i class="fa fa-plus"></i></button>
-				  <button class="mui-btn mui-btn--fab mui-btn--accent" onclick="zoominoutimage('Minus')"><i class="fa fa-minus"></i></button>
-				  <button class="mui-btn mui-btn--fab mui-btn--accent" onclick="rotateimage();"><i class="fa fa-repeat"></i></button>
-				  <button class="mui-btn mui-btn--fab mui-btn--accent" onclick="movefourdirection('Right');"><i class="fa fa-arrow-right"></i></button>
-				  <button class="mui-btn mui-btn--fab mui-btn--accent" onclick="movefourdirection('Left');"><i class="fa fa-arrow-left"></i></button>
-				  <button class="mui-btn mui-btn--fab mui-btn--accent" onclick="movefourdirection('Down');"><i class="fa fa-arrow-down"></i></button>
-				  <button class="mui-btn mui-btn--fab mui-btn--accent" onclick="movefourdirection('Up');"><i class="fa fa-arrow-up"></i></button>
+				  <button class="mui-btn mui-btn--fab mui-btn--accent" id="button_to_enable" onclick="zoominoutimage('Plus')"><i class="fa fa-plus"></i></button>
+				  <button class="mui-btn mui-btn--fab mui-btn--accent" id="button_to_enable" onclick="zoominoutimage('Minus')"><i class="fa fa-minus"></i></button>
+				  <button class="mui-btn mui-btn--fab mui-btn--accent" id="button_to_enable" onclick="rotateimage();"><i class="fa fa-repeat"></i></button>
+				  <button class="mui-btn mui-btn--fab mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Right');"><i class="fa fa-arrow-right"></i></button>
+				  <button class="mui-btn mui-btn--fab mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Left');"><i class="fa fa-arrow-left"></i></button>
+				  <button class="mui-btn mui-btn--fab mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Down');"><i class="fa fa-arrow-down"></i></button>
+				  <button class="mui-btn mui-btn--fab mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Up');"><i class="fa fa-arrow-up"></i></button>
                 <!-- <button type="button" class="btn btn-primary b1" onclick="myFunction()">Rotate Canvas</button>--->
-                <button type="button" class="mui-btn mui-btn--flat mui-btn--accent" onclick="blacknwhiteimage()" ;>Black And White</button>
+                <button type="button" class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="blacknwhiteimage()" ;>Black And White</button>
             </div>
 			<div class="mui-panel" id="parent">
-			<input id="fileupload" type="file" name="fileupload" />
-            <button class="mui-btn mui-btn--accent id="upload-button" onclick="uploadlocal()"> Upload </button>
+			<input id="fileupload" type="file" name="fileupload"/>
+            <button class="mui-btn mui-btn--accent id="upload-button"" onclick="uploadlocal();"> Upload </button>
+			<div id="results"></div>
+			<div id="uiOverlay" style="display: none;">Please wait</div>
 		    </div>
 			<div class="mui-panel" id="parent">
 			<button class="mui-btn mui-btn--accent" onclick="addtocart();">Add To Cart</button
@@ -89,11 +99,13 @@
 				},
                 showConfigurator: false,
                 locale: "EN",
+				allowMobileVerticalOrbit: true,
             })
             .then(async api => {
                 window.api = api;
                 window.configurator = await api.getConfigurator();
-				configurator.setConfiguration({"panelName" : {assetId :urlParams.get("variant")}})
+				var panelAssetid= getAssetIDforVariant(urlParams.get("variant"));
+				configurator.setConfiguration({"panelName" : {assetId :panelAssetid}})
                 playerObj = api.enableApi('player')
                 addToolToScene();
             }); //end of async api
@@ -101,7 +113,9 @@
 		async function  uploadlocal(){
 		var a=await uploadImage(fileupload.files[0]);
 		changeImage(a.imageassetId);
-		 
+		function enableButton() {
+            document.getElementById("button_to_enable").disabled = false;
+        }
 		}
     </script>
     <script src="uploadFiles.js"></script>

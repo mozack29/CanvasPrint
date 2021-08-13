@@ -160,3 +160,12 @@
             })
 
         }
+		function getAssetIDforVariant(variantid)
+		{
+		const mapWD = new Map();
+
+			mapWD.set('32358157451351', "b565ec2e-edcf-4e99-9f46-a0ff18f51776");//shunkawauken
+			mapWD.set('32358153814103', "c1432278-c532-4633-a1ec-a042d20d71d5");//mingo
+			return mapWD.get(variantid);
+	
+		}
