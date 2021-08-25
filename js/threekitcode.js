@@ -1,9 +1,12 @@
     function addtocart(){
+		//console.log(playerObj.getConfigurator('panelName').metadata);
+        finalObj.metadata=playerObj.getConfigurator('panelName').metadata;   
 		console.log(finalObj);
 	}
 	function setBorder(colorVal)
 	{
-		var borderAssetID="63ccea68-4d3b-4637-9fca-962147956e89"; //default black 
+		var borderAssetID="35baefef-b860-434a-a1e3-4a8569507149"; //default black 
+		finalObj.border = colorVal;//default value is Blur 
 		if (colorVal==='Black')
 		borderAssetID="63ccea68-4d3b-4637-9fca-962147956e89";
 		if (colorVal==='Grey')
@@ -47,6 +50,9 @@
 		
 	function addToolToScene() {
 
+		finalObj.border = 'Blur';//default value is Blur 
+		//console.log("hello");
+		
             api.tools.addTool({
                     key: 'CanvasPrint',
                     label: 'Select',
@@ -55,9 +61,11 @@
                     handlers: {
 
                         mousedown: e => {
-
-                            api.selectionSet.clear();
-
+							//when nothing is selected 
+                            api.selectionSet.clear(); // clear the selection
+							configuratorobj=null; //remove the config Object
+							selectNodeName=""; //remove the Selected node
+							
                             const hits = e.hitNodes;
                             if (!hits.length) return;
 
@@ -93,6 +101,8 @@
         } //end of function 
 
 	function movefourdirection(direction) {
+		if(configuratorobj===null)
+			return;
             var verticalPos = configuratorobj.appliedConfiguration["canvas_vertical_global"];
             var horizontalPos = configuratorobj.appliedConfiguration["canvas_horizontal_global"];
 
@@ -122,7 +132,8 @@
         }
 
         function rotateimage() {
-
+if(configuratorobj===null)
+			return;
             var rotate = configuratorobj.appliedConfiguration["canvas_rotation_global"];
             rotate = rotate + 5;
             finalObj[selectNodeName].rotate = rotate;
@@ -133,6 +144,8 @@
         }
 
         function blacknwhiteimage() {
+			if(configuratorobj===null)
+			return;
 
             var bw = configuratorobj.appliedConfiguration["blackwhite_global"];
             //default false
@@ -153,6 +166,8 @@
 
 
         function zoominoutimage(scale) {
+			if(configuratorobj===null)
+			return;
 
             var height = configuratorobj.appliedConfiguration["canvas_height_global"];
             var width = configuratorobj.appliedConfiguration["canvas_width_global"];
@@ -180,8 +195,14 @@
 		const mapWD = new Map();
 
 			mapWD.set('32358157451351', "b565ec2e-edcf-4e99-9f46-a0ff18f51776");//shunkawauken
+			mapWD.set('32357570314327', "fba16900-7b86-410f-a48d-111b23592e9e");//linville
+			mapWD.set('32357576671319', "3f90f102-6c2b-48af-a34f-0f6575c4057c");//sunbrust
+			
+			
 			mapWD.set('32358153814103', "c1432278-c532-4633-a1ec-a042d20d71d5");//mingo
-			mapWD.set('32357571723351', "a58f8ef4-bf0d-44e1-816c-3dcbfe594bbe");//Cullasaja
+			mapWD.set('32358156206167', "d5f10893-b22c-4502-ae5a-6ddb32006122");//catwa
+			
+			//mapWD.set('32357571723351', "a58f8ef4-bf0d-44e1-816c-3dcbfe594bbe");//Cullasaja
 			return mapWD.get(variantid);
 	
 		}
