@@ -78,7 +78,7 @@
 			<button class="mui-btn mui-btn--accent" onclick="setBorder('Blur')">Blur</button>
 			<button class="mui-btn mui-btn--accent" onclick="setBorder('White')">White</button>
 			<br>
-			<!--<button class="mui-btn mui-btn--accent" onclick="addtocart();">Add To Cart</button> -->
+			<button class="mui-btn mui-btn--accent" onclick="addtocart();">Add To Cart</button> 
 		</div>
     </section>
 
@@ -112,8 +112,8 @@
                 window.configurator = await api.getConfigurator();
 				var panelAssetid= getAssetIDforVariant(urlParams.get("variant"));
 				configurator.setConfiguration({"panelName" : {assetId :panelAssetid}})
-                playerObj = api.enableApi('player')
-                addToolToScene();
+                playerObj = api.enableApi('player');
+				addToolToScene();
             }); //end of async api
 
 		async function  uploadlocal(){
