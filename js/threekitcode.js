@@ -5,19 +5,28 @@
 	}
 	function setBorder(colorVal)
 	{
-		var borderAssetID="35baefef-b860-434a-a1e3-4a8569507149"; //default black 
-		finalObj.border = colorVal;//default value is Blur 
-		if (colorVal==='Black')
-		borderAssetID="63ccea68-4d3b-4637-9fca-962147956e89";
-		if (colorVal==='Grey')
-		borderAssetID="43b9d81e-1d81-4b67-9b7b-83737fcbcc53";
-		if (colorVal==='White')
-		borderAssetID="1f779f81-c495-4c40-b186-9b82aedc2a7a";
-		if (colorVal==='Mirror')
-		borderAssetID="efdd80a1-6e0e-4a5e-9666-7352769432a3";
-		if (colorVal==='Blur')
-		borderAssetID="35baefef-b860-434a-a1e3-4a8569507149";
-		configurator.setConfiguration({"Border" : {assetId :borderAssetID}});
+		
+    var borderAssetID;
+    finalObj.border = colorVal;
+
+    if (colorVal==='Black'){
+    borderAssetID="63ccea68-4d3b-4637-9fca-962147956e89";
+    }
+    else if (colorVal==='Grey'){
+    borderAssetID="43b9d81e-1d81-4b67-9b7b-83737fcbcc53";
+    }
+    else if (colorVal==='White'){
+    borderAssetID="1f779f81-c495-4c40-b186-9b82aedc2a7a";
+    }
+    else if (colorVal==='Mirror'){
+    borderAssetID="efdd80a1-6e0e-4a5e-9666-7352769432a3";
+   
+    }
+    else {
+    borderAssetID="35baefef-b860-434a-a1e3-4a8569507149"; //blur
+    
+    }
+    configurator.setConfiguration({"Border" : {assetId :borderAssetID}}); 
 	}
 	
 	function changeImage(imageValue) {
@@ -107,19 +116,19 @@
             var horizontalPos = configuratorobj.appliedConfiguration["canvas_horizontal_global"];
 
             if (direction == 'Right') {
-                horizontalPos = horizontalPos + 20;
+                horizontalPos = horizontalPos + 10;
             }
 
             if (direction == 'Left') {
-                horizontalPos = horizontalPos - 20;
+                horizontalPos = horizontalPos - 10;
             }
 
             if (direction == 'Down') {
-                verticalPos = verticalPos + 20;
+                verticalPos = verticalPos + 10;
             }
 
             if (direction == 'Up') {
-                verticalPos = verticalPos - 20;
+                verticalPos = verticalPos - 10;
             }
             finalObj[selectNodeName].verticalPos = verticalPos;
             finalObj[selectNodeName].horizontalPos = horizontalPos;
@@ -191,18 +200,43 @@ if(configuratorobj===null)
 
         }
 		function getAssetIDforVariant(variantid)
-		{
-		const mapWD = new Map();
+    {
+    const mapWD = new Map();
 
-			mapWD.set('32358157451351', "b565ec2e-edcf-4e99-9f46-a0ff18f51776");//shunkawauken
-			mapWD.set('32357570314327', "fba16900-7b86-410f-a48d-111b23592e9e");//linville
-			mapWD.set('32357576671319', "3f90f102-6c2b-48af-a34f-0f6575c4057c");//sunbrust
-			
-			
-			mapWD.set('32358153814103', "c1432278-c532-4633-a1ec-a042d20d71d5");//mingo
-			mapWD.set('32358156206167', "d5f10893-b22c-4502-ae5a-6ddb32006122");//catwa
-			
-			//mapWD.set('32357571723351', "a58f8ef4-bf0d-44e1-816c-3dcbfe594bbe");//Cullasaja
-			return mapWD.get(variantid);
-	
-		}
+    //walldisplay models
+
+        mapWD.set('32358157451351', "b565ec2e-edcf-4e99-9f46-a0ff18f51776");//shunkawauken
+        mapWD.set('32357570314327', "fba16900-7b86-410f-a48d-111b23592e9e");//linville
+        mapWD.set('32357576671319', "3f90f102-6c2b-48af-a34f-0f6575c4057c");//sunbrust
+        
+        
+        mapWD.set('32358153814103', "c1432278-c532-4633-a1ec-a042d20d71d5");//mingo
+        mapWD.set('32358156206167', "d5f10893-b22c-4502-ae5a-6ddb32006122");//
+        
+        
+        mapWD.set('32357575655511', "aa63869e-e278-4790-a93b-58d33c017486");//glass
+        mapWD.set('32357571723351', "a58f8ef4-bf0d-44e1-816c-3dcbfe594bbe");//Cullasaja
+        mapWD.set('32357548130391', "517abdb1-41af-437b-be89-9f630880c429");//hickory
+        mapWD.set('32357577785431', "9ed3c5c9-e973-4a3f-af96-f6e0094c1a87");//setrock
+        
+        mapWD.set('32358148046935', "e5bc80f9-762e-46a2-b21d-1521c897d4a5");//silver
+        mapWD.set('32361519939671', "205ee8eb-8881-4d46-82f7-2d65c99200ea");//rainbow
+        mapWD.set('32358152568919', "62a9089a-5bd8-4f97-ae3d-a292858ef1b4");//stairway
+        
+        mapWD.set('32361518301271', "ba3bd1b9-4e39-4739-84b5-eb8f09e197be");//wildcat
+        mapWD.set('32361520463959', "0f6db45c-fe2b-480a-a158-b71489e55aaa");//catabwa
+
+
+
+
+        //tripytch models
+
+        mapWD.set('32365183828055', "f1633cfa-f462-49f1-9793-b484a5f80f3a");//Classic Triptych
+        mapWD.set('32366536327255', "bd7167ba-af06-4ea3-82ed-8577f50f13a7");//Classic Flow Triptych
+        mapWD.set('32365179535447', "93faf5a0-098b-4409-95dd-072dbe2ca3ca");//Cozy Triptych
+        mapWD.set('32366542258263', "727fc1b0-75cf-43e2-9089-535eb9aae8de");//Cozy Flow Triptych
+        
+        
+        return mapWD.get(variantid);
+
+    }

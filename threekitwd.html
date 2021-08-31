@@ -103,6 +103,7 @@
 				//'panelName': {
 				//assetId: 'b565ec2e-edcf-4e99-9f46-a0ff18f51776'
 				},
+				showLoadingThumbnail : true,
                 showConfigurator: false,
                 locale: "EN",
 				allowMobileVerticalOrbit: true,
@@ -112,8 +113,8 @@
                 window.configurator = await api.getConfigurator();
 				var panelAssetid= getAssetIDforVariant(urlParams.get("variant"));
 				configurator.setConfiguration({"panelName" : {assetId :panelAssetid}})
-                playerObj = api.enableApi('player');
-				addToolToScene();
+                playerObj = api.enableApi('player')
+                addToolToScene();
             }); //end of async api
 
 		async function  uploadlocal(){
