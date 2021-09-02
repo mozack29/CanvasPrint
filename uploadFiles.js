@@ -19,6 +19,27 @@ finalObj[selectNodeName].assetId = objAsset.imageassetId;
 return objAsset; 
 }
 
+async function uploadImageSingle(filedata)
+{
+	//This method returns the fileID and AssetID
+	$("#uiOverlay").dialog({
+	modal: true,
+	closeOnEscape: false,
+	dialogClass: "dialog-no-close",
+	}) 
+	var jobID= await uploadFileToThreeKit(filedata);
+	var objAsset=await getAssetIDfromJob(jobID);
+while(objAsset?.job_status!= "stopped")	
+{
+	objAsset=await getAssetIDfromJob(jobID); 
+	await sleep(3000); 
+}//end of while
+$("#uiOverlay").dialog("close");
+finalObj.fileID = objAsset.imagefileId;
+finalObj.assetId = objAsset.imageassetId;
+return objAsset; 
+}
+
 async function uploadFileToThreeKit(filedata) {
 
     var myHeaders = new Headers(); //post 
