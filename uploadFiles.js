@@ -1,6 +1,67 @@
+var fileurl="https://preview.threekit.com/api/files/";	
+function imageSize(filedata) {
+	
+    //const img = document.createElement("img");
+var url = URL.createObjectURL(filedata);
+var img = new Image;
+    const promise = new Promise((resolve, reject) => {
+      img.onload = () => {
+        // Natural size is the actual image size regardless of rendering.
+        // The 'normal' `width`/`height` are for the **rendered** size.
+        const width  = img.naturalWidth;
+        const height = img.naturalHeight; 
+
+        // Resolve promise with the width and height
+        resolve({width, height});
+      };
+
+      // Reject promise on error
+      img.onerror = reject;
+    });
+
+    // Setting the source makes it start downloading and eventually call `onload`
+    img.src = url;
+
+    return promise;
+}
+
+
 async function uploadImage(filedata)
 {
-	//This method returns the fileID and AssetID
+	
+ var u = await imageSize(fileupload.files[0]);
+		imgHeight=u.height;
+		imgWidth=u.width;
+	
+if(!finalObj.metadata)	
+	finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
+
+var dimension=(finalObj.metadata[selectNodeName]).split("_");;
+var canvasHeight=dimension[0];
+var canvasWidth=dimension[1];
+var heightRatio= canvasHeight /imgHeight;
+var widthRatio= canvasWidth /imgWidth;
+finalObj[selectNodeName].ratio=1;
+//console.log("canHeight",canvasHeight,"canWidth",canvasWidth,imgHeight,imgWidth);
+if(heightRatio>widthRatio)
+{
+	
+	imgHeight=imgHeight*heightRatio;
+	imgWidth=imgWidth*heightRatio
+	
+}
+else
+{
+	imgHeight=imgHeight*widthRatio;
+	imgWidth=imgWidth*widthRatio;
+	
+}
+//remove the image;
+changeImage("");
+//set the canvas and image properties
+setCanvasImage(canvasHeight,canvasWidth,Math.round(imgHeight),Math.round(imgWidth));
+
+//This method returns the fileID and AssetID
 	$("#uiOverlay").dialog({
 	modal: true,
 	closeOnEscape: false,
@@ -14,8 +75,10 @@ while(objAsset?.job_status!= "stopped")
 	await sleep(3000); 
 }//end of while
 $("#uiOverlay").dialog("close");
-finalObj[selectNodeName].fileID = objAsset.imagefileId;
+//finalObj[selectNodeName].fileID = objAsset.imagefileId;
+finalObj[selectNodeName].fileID = fileurl.concat(objAsset.imagefileId,"/content/");
 finalObj[selectNodeName].assetId = objAsset.imageassetId;
+
 return objAsset; 
 }
 

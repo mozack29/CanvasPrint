@@ -1,6 +1,30 @@
-    function addtocart(){
+function setCanvasImage(cnH,cnW,imgH,imgW)
+{
+	   configuratorobj.setConfiguration({
+                "canvas_vertical_global": cnH/2,
+                "canvas_horizontal_global": cnW/2,
+				"canvas_width_orig": cnW,
+				"canvas_height_orig": cnH,
+				"image_height":imgH,
+				"image_width":imgW
+
+            })
+
+	
+	 finalObj[selectNodeName].verticalPos = cnH/2;
+     finalObj[selectNodeName].horizontalPos = cnW/2;
+	 finalObj[selectNodeName].canvasHeight = cnH;
+	 finalObj[selectNodeName].canvasWidth = cnW;
+	 finalObj[selectNodeName].imageHeight = imgH;
+	 finalObj[selectNodeName].imageWidth = imgW;
+	 finalObj[selectNodeName].verticalMov = 0;
+	 finalObj[selectNodeName].horizontalMov = 0;
+	 finalObj[selectNodeName].rotate = 0;
+
+}   
+   function addtocart(){
 		//console.log(playerObj.getConfigurator('panelName').metadata);
-        finalObj.metadata=playerObj.getConfigurator('panelName').metadata;   
+        //finalObj.metadata=playerObj.getConfigurator('panelName').metadata;   
 		console.log(finalObj);
 	}
 	function setBorder(colorVal)
@@ -60,7 +84,7 @@
 	function addToolToScene() {
 
 		finalObj.border = 'Blur';//default value is Blur 
-		//console.log("hello");
+		
 		
             api.tools.addTool({
                     key: 'CanvasPrint',
@@ -91,10 +115,10 @@
                             if (panel) {
                                 api.selectionSet.add(panel.nodeId);
                                 selectNodeName = canvas.name;
-                                //console.log(selectNodeName);
+                                
                                 if (!finalObj[selectNodeName])
                                     finalObj[selectNodeName] = {}; //creating object
-                                //console.log(finalObj);
+                                
                                 //node.setStyle({ outlineColor: '#00ff00', outlineThinkness: 5, color: '#ff0000', opacity: 0.5 });
                                 getMaterialConfigurator().then();
                             }
@@ -106,7 +130,7 @@
                 } //end fo add tool
 
             );
-
+		
         } //end of function 
 
 	function movefourdirection(direction) {
@@ -114,24 +138,34 @@
 			return;
             var verticalPos = configuratorobj.appliedConfiguration["canvas_vertical_global"];
             var horizontalPos = configuratorobj.appliedConfiguration["canvas_horizontal_global"];
+			var verticalMov=finalObj[selectNodeName].verticalMov;
+			var horizontalMov=finalObj[selectNodeName].horizontalMov;
 
             if (direction == 'Right') {
                 horizontalPos = horizontalPos + 10;
+				horizontalMov=horizontalMov-10;
             }
 
             if (direction == 'Left') {
                 horizontalPos = horizontalPos - 10;
+				horizontalMov=horizontalMov+10;
             }
 
             if (direction == 'Down') {
                 verticalPos = verticalPos + 10;
+				verticalMov=verticalMov+10;
             }
 
             if (direction == 'Up') {
                 verticalPos = verticalPos - 10;
+				verticalMov=verticalMov-10;
             }
             finalObj[selectNodeName].verticalPos = verticalPos;
             finalObj[selectNodeName].horizontalPos = horizontalPos;
+			
+			finalObj[selectNodeName].verticalMov = verticalMov;
+			finalObj[selectNodeName].horizontalMov = horizontalMov;
+			
 
             configuratorobj.setConfiguration({
                 "canvas_vertical_global": verticalPos,
@@ -178,24 +212,36 @@ if(configuratorobj===null)
 			if(configuratorobj===null)
 			return;
 
-            var height = configuratorobj.appliedConfiguration["canvas_height_global"];
-            var width = configuratorobj.appliedConfiguration["canvas_width_global"];
+			var imageRatio=finalObj[selectNodeName].ratio;
+			var height = finalObj[selectNodeName].imageHeight;
+            var width = finalObj[selectNodeName].imageWidth;
+			if(imageRatio===0)
+			return;
 
-            if (scale == 'Plus') {
-                height = height + .1;
-                width = width + .1;
-            }
-
-            if (scale == 'Minus') {
-                height = height - .1;
-                width = width - .1;
-            }
-            finalObj[selectNodeName].height = height;
-            finalObj[selectNodeName].width = width;
+            if (scale == 'Plus') 
+			{
+				imageRatio = imageRatio + .1;
+				height=height + height * .1;
+				width=width + width * .1;
+                
+			}
+            if (scale == 'Minus') 
+			{
+				imageRatio = imageRatio - .1;
+				height=height - height * .1;
+				width=width - width * .1;
+			}
+			
+			
+			console.log(imageRatio,height,width);
+			
+			finalObj[selectNodeName].ratio=imageRatio;
+            finalObj[selectNodeName].imageHeight = height;
+            finalObj[selectNodeName].imageWidth = width;
 
             configuratorobj.setConfiguration({
-                "canvas_height_global": height,
-                "canvas_width_global": width
+                "image_height": height,
+                "image_width": width
             })
 
         }
