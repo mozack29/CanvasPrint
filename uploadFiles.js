@@ -1,33 +1,16 @@
+//the file is used for to upload the file to threekit
+/*
+change log
+1. File created 
+2. 
+3. 
+
+*/
+//This need to be changed based on the envionment
 var fileurl="https://preview.threekit.com/api/files/";	
-function imageSize(filedata) {
-	
-    //const img = document.createElement("img");
-var url = URL.createObjectURL(filedata);
-var img = new Image;
-    const promise = new Promise((resolve, reject) => {
-      img.onload = () => {
-        // Natural size is the actual image size regardless of rendering.
-        // The 'normal' `width`/`height` are for the **rendered** size.
-        const width  = img.naturalWidth;
-        const height = img.naturalHeight; 
 
-        // Resolve promise with the width and height
-        resolve({width, height});
-      };
-
-      // Reject promise on error
-      img.onerror = reject;
-    });
-
-    // Setting the source makes it start downloading and eventually call `onload`
-    img.src = url;
-
-    return promise;
-}
-
-
-async function uploadImage(filedata)
-{
+//The function is used to upload image for Wall Display
+async function uploadImage(filedata){
 	
  var u = await imageSize(fileupload.files[0]);
 		imgHeight=u.height;
@@ -81,9 +64,53 @@ finalObj[selectNodeName].assetId = objAsset.imageassetId;
 
 return objAsset; 
 }
+//The function is used to upload image for TripTych Canvas
+async function uploadImageTriptych(filedata){
+ var u = await imageSize(fileupload.files[0]);
+		imgHeight=u.height;
+		imgWidth=u.width;
 
-async function uploadImageSingle(filedata)
+
+if(!finalObj.metadata)	
+	finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
+
+var dimension=(finalObj.metadata["_size"]).split("_");;
+var canvasHeight=dimension[0];
+var canvasWidth=dimension[1];
+var heightRatio= canvasHeight /imgHeight;
+var widthRatio= canvasWidth /imgWidth;
+finalObj.ratio=1;
+if(heightRatio>widthRatio)
 {
+	
+	imgHeight=imgHeight*heightRatio;
+	imgWidth=imgWidth*heightRatio;
+	
+}
+else
+{
+	imgHeight=imgHeight*widthRatio;
+	imgWidth=imgWidth*widthRatio;
+	
+}
+
+//remove the image;
+changeImage("");
+//
+var reduceRatio=updatedSize4k(canvasHeight,canvasWidth,imgHeight,imgWidth);
+finalObj.reduceRatio=reduceRatio;
+var updatedCanvasHeight=canvasHeight/reduceRatio;
+var updatedCanvasWidth=canvasWidth/reduceRatio;
+var updatedImageHeight=imgHeight/reduceRatio;
+var updatedImageWidth=imgWidth/reduceRatio;
+
+//set the canvas and image properties
+setCanvasImage(updatedCanvasHeight,updatedCanvasWidth,Math.round(updatedImageHeight),Math.round(updatedImageWidth));
+
+//console.log(canvasHeight,canvasWidth,imgHeight,imgWidth);
+
+
+
 	//This method returns the fileID and AssetID
 	$("#uiOverlay").dialog({
 	modal: true,
@@ -102,7 +129,7 @@ finalObj.fileID = objAsset.imagefileId;
 finalObj.assetId = objAsset.imageassetId;
 return objAsset; 
 }
-
+//upload file to 3Kit CDN
 async function uploadFileToThreeKit(filedata) {
 
     var myHeaders = new Headers(); //post 
@@ -136,8 +163,7 @@ async function uploadFileToThreeKit(filedata) {
 return jobIdGlobal;
  }
 //This function will return fileID and assetId.
-async function  getAssetIDfromJob(jobID)
-{
+async function  getAssetIDfromJob(jobID){
 	 var myHeadersAsset = new Headers(); //get
 	 var imageassetId;
 	 var imagefileId;
@@ -163,7 +189,40 @@ async function  getAssetIDfromJob(jobID)
                         .catch(error => console.log('error', error));
 						return {job_status,imageassetId, imagefileId};
 }
-
+//General Function to wait for imageLaod
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+//to resize canvasHeight/canWidth/imageSize upto 4k
+function updatedSize4k(canHeight,canWidth,imgHeight,imgWidth){
+	//console.log("i am in");
+	var maxSide= Math.max(canHeight,canWidth,imgHeight,imgWidth);
+	var reduceRatio=maxSide/4096; //this is done to reduce the size upto 4K.
+	return reduceRatio;
+}
+//function to get the imageSize
+function imageSize(filedata) {
+	
+    //const img = document.createElement("img");
+var url = URL.createObjectURL(filedata);
+var img = new Image;
+    const promise = new Promise((resolve, reject) => {
+      img.onload = () => {
+        // Natural size is the actual image size regardless of rendering.
+        // The 'normal' `width`/`height` are for the **rendered** size.
+        const width  = img.naturalWidth;
+        const height = img.naturalHeight; 
+
+        // Resolve promise with the width and height
+        resolve({width, height});
+      };
+
+      // Reject promise on error
+      img.onerror = reject;
+    });
+
+    // Setting the source makes it start downloading and eventually call `onload`
+    img.src = url;
+
+    return promise;
 }
