@@ -1,5 +1,13 @@
-function setCanvasImage(cnH,cnW,imgH,imgW)
-{
+//the file is used for Wall Display Canvas
+/*
+change log
+1. File created 
+2. 
+3. Update Rotate function to 0 after it reach 360
+
+*/
+//function to set the CanvasSize and image size onload
+function setCanvasImage(cnH,cnW,imgH,imgW){
 	   configuratorobj.setConfiguration({
                 "canvas_vertical_global": cnH/2,
                 "canvas_horizontal_global": cnW/2,
@@ -22,13 +30,13 @@ function setCanvasImage(cnH,cnW,imgH,imgW)
 	 finalObj[selectNodeName].rotate = 0;
 
 }   
-   function addtocart(){
-		//console.log(playerObj.getConfigurator('panelName').metadata);
-        //finalObj.metadata=playerObj.getConfigurator('panelName').metadata;   
+//creatng data for cart and imageMagic
+function addtocart(){
+		
 		console.log(finalObj);
 	}
-	function setBorder(colorVal)
-	{
+//update the border
+function setBorder(colorVal)	{
 		
     var borderAssetID;
     finalObj.border = colorVal;
@@ -52,8 +60,8 @@ function setCanvasImage(cnH,cnW,imgH,imgW)
     }
     configurator.setConfiguration({"Border" : {assetId :borderAssetID}}); 
 	}
-	
-	function changeImage(imageValue) {
+//update the image in canvas	
+function changeImage(imageValue) {
 
             configuratorobj.setConfiguration({
                 'sourceImage': {
@@ -62,8 +70,8 @@ function setCanvasImage(cnH,cnW,imgH,imgW)
             });
 
         }
-		
-	async function getMaterialConfigurator() {
+//getting material Configurator	
+async function getMaterialConfigurator() {
             const panelid = playerObj.configurator.appliedConfiguration["panelName"]
             var assetInstance = await playerObj.getAssetInstance({
                 id: panelid,
@@ -80,8 +88,8 @@ function setCanvasImage(cnH,cnW,imgH,imgW)
                 property: 'reference'
             })
         }
-		
-	function addToolToScene() {
+//add select to scene	
+function addToolToScene() {
 
 		finalObj.border = 'Blur';//default value is Blur 
 		
@@ -132,8 +140,8 @@ function setCanvasImage(cnH,cnW,imgH,imgW)
             );
 		
         } //end of function 
-
-	function movefourdirection(direction) {
+//to move image in 4 directions within canvas
+function movefourdirection(direction) {
 		if(configuratorobj===null)
 			return;
             var verticalPos = configuratorobj.appliedConfiguration["canvas_vertical_global"];
@@ -173,20 +181,22 @@ function setCanvasImage(cnH,cnW,imgH,imgW)
             })
 
         }
-
-        function rotateimage() {
+//to rotate image
+function rotateimage() {
 if(configuratorobj===null)
 			return;
             var rotate = configuratorobj.appliedConfiguration["canvas_rotation_global"];
             rotate = rotate + 5;
+			if(rotate>=360)
+				rotate=0;
             finalObj[selectNodeName].rotate = rotate;
             configuratorobj.setConfiguration({
                 "canvas_rotation_global": rotate
             })
 
         }
-
-        function blacknwhiteimage() {
+//to change the image balck and white
+function blacknwhiteimage() {
 			if(configuratorobj===null)
 			return;
 
@@ -206,9 +216,8 @@ if(configuratorobj===null)
 
             }
         }
-
-
-        function zoominoutimage(scale) {
+//zoom in zoom out
+function zoominoutimage(scale) {
 			if(configuratorobj===null)
 			return;
 
@@ -245,8 +254,8 @@ if(configuratorobj===null)
             })
 
         }
-		function getAssetIDforVariant(variantid)
-    {
+//to get the assetID mapped to Wall Display Model
+function getAssetIDforVariant(variantid)    {
     const mapWD = new Map();
 
     //walldisplay models
@@ -272,17 +281,6 @@ if(configuratorobj===null)
         mapWD.set('32361518301271', "ba3bd1b9-4e39-4739-84b5-eb8f09e197be");//wildcat
         mapWD.set('32361520463959', "0f6db45c-fe2b-480a-a158-b71489e55aaa");//catabwa
 
-
-
-
-        //tripytch models
-
-        mapWD.set('32365183828055', "f1633cfa-f462-49f1-9793-b484a5f80f3a");//Classic Triptych
-        mapWD.set('32366536327255', "bd7167ba-af06-4ea3-82ed-8577f50f13a7");//Classic Flow Triptych
-        mapWD.set('32365179535447', "93faf5a0-098b-4409-95dd-072dbe2ca3ca");//Cozy Triptych
-        mapWD.set('32366542258263', "727fc1b0-75cf-43e2-9089-535eb9aae8de");//Cozy Flow Triptych
-        
-        
         return mapWD.get(variantid);
 
     }

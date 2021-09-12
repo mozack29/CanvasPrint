@@ -1,10 +1,45 @@
+//the file is used for Wall Display Canvas
+/*
+change log
+1. File created 
+2. 12-sept added new function setCAnvas and removed whihch were not required for Triptych
+3. 
+
+*/
+
+//function to set the CanvasSize and image size onload
+function setCanvasImage(cnH,cnW,imgH,imgW){
+	
+	   configurator.setConfiguration({
+                "imageposHorizontal": imgW/2, // this is exception done. Because the current setup using image position and not canvas for Horizintal 
+                "imageposVertical": cnH/2,
+				"canvas_width_orig": cnW,
+				"canvas_height_orig": Math.round(cnH),
+				"image_height":imgH,
+				"image_width":imgW
+
+            })
+
+	
+	 /*finalObj[selectNodeName].verticalPos = cnH/2;
+     finalObj[selectNodeName].horizontalPos = cnW/2;
+	 finalObj[selectNodeName].canvasHeight = cnH;
+	 finalObj[selectNodeName].canvasWidth = cnW;
+	 finalObj[selectNodeName].imageHeight = imgH;
+	 finalObj[selectNodeName].imageWidth = imgW;
+	 finalObj[selectNodeName].verticalMov = 0;
+	 finalObj[selectNodeName].horizontalMov = 0;
+	 finalObj[selectNodeName].rotate = 0;
+*/
+}
+//creatng data for cart and imageMagic
 function addtocart(){
     //console.log(playerObj.getConfigurator('panelName').metadata);
     finalObj.metadata=playerObj.getConfigurator('panelName').metadata;   
     console.log(finalObj);
 }
-function setBorder(colorVal)
-{
+//update the border
+function setBorder(colorVal){
     var borderAssetID;
     finalObj.border = colorVal;
 
@@ -27,7 +62,7 @@ function setBorder(colorVal)
     }
     configurator.setConfiguration({"Border" : {assetId :borderAssetID}}); 
 }
-
+//update the image in canvas	
 function changeImage(imageValue) {
 
         configurator.setConfiguration({
@@ -37,14 +72,12 @@ function changeImage(imageValue) {
         });
 
     }
-    
- 
-
+//to move image in 4 directions within canvas
 function movefourdirection(direction) {
     if(playerObj.configurator===null)
         return;
-        var verticalPos = playerObj.configurator.appliedConfiguration["canvas_vertical_global"];
-        var horizontalPos = playerObj.configurator.appliedConfiguration["canvas_horizontal_global"];
+        var verticalPos = playerObj.configurator.appliedConfiguration["imageposVertical"];
+        var horizontalPos = playerObj.configurator.appliedConfiguration["imageposHorizontal"];
 
         if (direction == 'Right') {
             horizontalPos = horizontalPos + 20;
@@ -65,25 +98,13 @@ function movefourdirection(direction) {
         finalObj.horizontalPos = horizontalPos;
 
         configurator.setConfiguration({
-            "canvas_vertical_global": verticalPos,
-            "canvas_horizontal_global": horizontalPos
+            "imageposVertical": verticalPos,
+           "imageposHorizontal": horizontalPos
         })
 
     }
-
-    function rotateimage() {
-if(configurator===null)
-        return;
-        var rotate = playerObj.configurator.appliedConfiguration["canvas_rotation_global"];
-        rotate = rotate + 5;
-        finalObj.rotate = rotate;
-        configurator.setConfiguration({
-            "canvas_rotation_global": rotate
-        })
-
-    }
-
-    function blacknwhiteimage() {
+//to change the image balck and white
+function blacknwhiteimage() {
         if(configurator===null)
         return;
 
@@ -103,35 +124,8 @@ if(configurator===null)
 
         }
     }
-
-
-    function zoominoutimage(scale) {
-        if(configurator===null)
-        return;
-
-        var height = playerObj.configurator.appliedConfiguration["canvas_height_global"];
-        var width = playerObj.configurator.appliedConfiguration["canvas_width_global"];
-
-        if (scale == 'Plus') {
-            height = height + .1;
-            width = width + .1;
-        }
-
-        if (scale == 'Minus') {
-            height = height - .1;
-            width = width - .1;
-        }
-        finalObj.height = height;
-        finalObj.width = width;
-
-        configurator.setConfiguration({
-            "canvas_height_global": height,
-            "canvas_width_global": width
-        })
-
-    }
-    function getAssetIDforVariant(variantid)
-    {
+//to get the assetID mapped to Triptych Model
+function getAssetIDforVariant(variantid)    {
     const mapWD = new Map();
 
     
