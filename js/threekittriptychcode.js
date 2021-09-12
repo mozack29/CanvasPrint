@@ -1,4 +1,4 @@
-//the file is used for Wall Display Canvas
+//the file is used for Triptych Canvas
 /*
 change log
 1. File created 
