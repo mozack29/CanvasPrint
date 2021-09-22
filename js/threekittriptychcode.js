@@ -3,7 +3,7 @@
 change log
 1. File created 
 2. 12-sept added new function setCAnvas and removed whihch were not required for Triptych
-3. 
+3. 22- Sept Added new funciton change Layout, updated add to cart function 
 
 */
 
@@ -21,22 +21,61 @@ function setCanvasImage(cnH,cnW,imgH,imgW){
             })
 
 	
-	 /*finalObj[selectNodeName].verticalPos = cnH/2;
-     finalObj[selectNodeName].horizontalPos = cnW/2;
-	 finalObj[selectNodeName].canvasHeight = cnH;
-	 finalObj[selectNodeName].canvasWidth = cnW;
-	 finalObj[selectNodeName].imageHeight = imgH;
-	 finalObj[selectNodeName].imageWidth = imgW;
-	 finalObj[selectNodeName].verticalMov = 0;
-	 finalObj[selectNodeName].horizontalMov = 0;
-	 finalObj[selectNodeName].rotate = 0;
-*/
+	 finalObj.verticalPos = cnH/2;
+     finalObj.horizontalPos = imgW/2;
+	 finalObj.imageHeight = imgH;
+	 finalObj.imageWidth = imgW;
+	 finalObj.verticalMov = 0;
+	 finalObj.horizontalMov = 0;
+	
 }
 //creatng data for cart and imageMagic
 function addtocart(){
     //console.log(playerObj.getConfigurator('panelName').metadata);
-    finalObj.metadata=playerObj.getConfigurator('panelName').metadata;   
-    console.log(finalObj);
+	
+	//Need to reclculate ImageSize and update object
+	var imgHeight=finalObj.imageHeightOriginal;
+	var imgWidth=finalObj.imageWidthOriginal;
+		
+	finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
+
+		var dimension=(finalObj.metadata["_size"]).split("_");
+		var centerDimension=(finalObj.metadata["Center"]).split("_");
+		var sideDimension=(finalObj.metadata["Sides"]).split("_");
+		
+			imageMagickObj.canHeight=dimension[0];  
+			imageMagickObj.canWidth=dimension[1];
+			imageMagickObj.centerHeight=centerDimension[0];
+			imageMagickObj.centerWidth=centerDimension[1];
+			imageMagickObj.sideHeight=sideDimension[0];
+			imageMagickObj.sideWidth=sideDimension[1];
+
+		
+		var canvasHeight=dimension[0];
+		var canvasWidth=dimension[1];
+		var heightRatio= canvasHeight /imgHeight;
+		var widthRatio= canvasWidth /imgWidth;
+	if(heightRatio>widthRatio)
+	{
+		
+		imgHeight=imgHeight*heightRatio;
+		imgWidth=imgWidth*heightRatio;
+		
+	}
+	else
+	{
+		imgHeight=imgHeight*widthRatio;
+		imgWidth=imgWidth*widthRatio;
+		
+	}
+	// storing Calculated values for final output
+	imageMagickObj.imageHeightCal = imgHeight;
+	imageMagickObj.imageWidthCal = imgWidth;
+	
+	
+	
+    	
+    console.log(imageMagickObj);
 }
 //update the border
 function setBorder(colorVal){
@@ -78,24 +117,36 @@ function movefourdirection(direction) {
         return;
         var verticalPos = playerObj.configurator.appliedConfiguration["imageposVertical"];
         var horizontalPos = playerObj.configurator.appliedConfiguration["imageposHorizontal"];
+		var verticalMov=imageMagickObj.verticalMov;
+		var horizontalMov=imageMagickObj.horizontalMov;
 
-        if (direction == 'Right') {
-            horizontalPos = horizontalPos + 20;
-        }
+            
+		if (direction == 'Right') {
+                horizontalPos = horizontalPos + 10;
+				horizontalMov=horizontalMov-10;
+            }
 
-        if (direction == 'Left') {
-            horizontalPos = horizontalPos - 20;
-        }
+            if (direction == 'Left') {
+                horizontalPos = horizontalPos - 10;
+				horizontalMov=horizontalMov+10;
+            }
 
-        if (direction == 'Down') {
-            verticalPos = verticalPos + 20;
-        }
+            if (direction == 'Down') {
+                verticalPos = verticalPos + 10;
+				verticalMov=verticalMov+10;
+            }
 
-        if (direction == 'Up') {
-            verticalPos = verticalPos - 20;
-        }
+            if (direction == 'Up') {
+                verticalPos = verticalPos - 10;
+				verticalMov=verticalMov-10;
+            }
+		
+		
         finalObj.verticalPos = verticalPos;
         finalObj.horizontalPos = horizontalPos;
+		
+		imageMagickObj.verticalMov = verticalMov;
+		imageMagickObj.horizontalMov = horizontalMov;
 
         configurator.setConfiguration({
             "imageposVertical": verticalPos,
@@ -114,13 +165,13 @@ function blacknwhiteimage() {
             configurator.setConfiguration({
                 "blackwhite_global": true
             })
-            finalObj.blacknwhite = true;
+            imageMagickObj.blacknwhite = true;
 
         } else {
             configurator.setConfiguration({
                 "blackwhite_global": false
             })
-            finalObj.blacknwhite = false;
+            imageMagickObj.blacknwhite = false;
 
         }
     }
@@ -144,3 +195,12 @@ function getAssetIDforVariant(variantid)    {
         return mapWD.get(variantid);
 
     }
+
+function changeLayout(variantid)
+{
+	var panelAssetid= getAssetIDforVariant(variantid);
+	
+	configurator.setConfiguration({"panelName" : {assetId :panelAssetid}});
+	
+	
+}
