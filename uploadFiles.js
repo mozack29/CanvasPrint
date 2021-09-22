@@ -2,8 +2,8 @@
 /*
 change log
 1. File created 
-2. 
-3. 
+2. added new function for Canvas uploadImageCanvas
+3. 22Sept- Updated uploadImageTriptych to add URL in fileID
 
 */
 //This need to be changed based on the envionment
@@ -71,44 +71,63 @@ async function uploadImageTriptych(filedata){
 		imgWidth=u.width;
 
 
-if(!finalObj.metadata)	
-	finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
+		finalObj.imageHeightOriginal = imgHeight;
+		finalObj.imageWidthOriginal = imgWidth;
 
-var dimension=(finalObj.metadata["_size"]).split("_");;
-var canvasHeight=dimension[0];
-var canvasWidth=dimension[1];
-var heightRatio= canvasHeight /imgHeight;
-var widthRatio= canvasWidth /imgWidth;
-finalObj.ratio=1;
-if(heightRatio>widthRatio)
-{
-	
-	imgHeight=imgHeight*heightRatio;
-	imgWidth=imgWidth*heightRatio;
-	
-}
-else
-{
-	imgHeight=imgHeight*widthRatio;
-	imgWidth=imgWidth*widthRatio;
-	
-}
+		//if(!finalObj.metadata)	
+		finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
 
-//remove the image;
-changeImage("");
-//
-var reduceRatio=updatedSize4k(canvasHeight,canvasWidth,imgHeight,imgWidth);
-finalObj.reduceRatio=reduceRatio;
-var updatedCanvasHeight=canvasHeight/reduceRatio;
-var updatedCanvasWidth=canvasWidth/reduceRatio;
-var updatedImageHeight=imgHeight/reduceRatio;
-var updatedImageWidth=imgWidth/reduceRatio;
+		//Getting the size from Metadata and setting in imageMagic Object
+		var dimension=(finalObj.metadata["_size"]).split("_");;
+		/*
+		var centerDimension=(finalObj.metadata["Center"]).split("_");
+		var sideDimension=(finalObj.metadata["Sides"]).split("_");
+			imageMagickObj.canHeight=dimension[0];  
+			imageMagickObj.canWidth=dimension[1];
+			imageMagickObj.centerHeight=centerDimension[0];
+			imageMagickObj.centerWidth=centerDimension[1];
+			imageMagickObj.sideHeight=sideDimension[0];
+			imageMagickObj.sideWidth=sideDimension[1];
+		*/
+		
+		var canvasHeight=dimension[0];
+		var canvasWidth=dimension[1];
+		var heightRatio= canvasHeight /imgHeight;
+		var widthRatio= canvasWidth /imgWidth;
 
-//set the canvas and image properties
-setCanvasImage(updatedCanvasHeight,updatedCanvasWidth,Math.round(updatedImageHeight),Math.round(updatedImageWidth));
 
-//console.log(canvasHeight,canvasWidth,imgHeight,imgWidth);
+		if(heightRatio>widthRatio)
+		{
+			
+			imgHeight=imgHeight*heightRatio;
+			imgWidth=imgWidth*heightRatio;
+			
+		}
+		else
+		{
+			imgHeight=imgHeight*widthRatio;
+			imgWidth=imgWidth*widthRatio;
+			
+		}
+		// storing Calculated values for final output
+		imageMagickObj.imageHeightCal = imgHeight;
+		imageMagickObj.imageWidthCal = imgWidth;
+		imageMagickObj.verticalMov=0;
+		imageMagickObj.horizontalMov=0;
 
+
+		//remove the image;
+		changeImage("");
+		//
+		var reduceRatio=updatedSize4k(canvasHeight,canvasWidth,imgHeight,imgWidth); //Matching it to 4k size 
+		finalObj.reduceRatio=reduceRatio;
+		var updatedCanvasHeight=canvasHeight/reduceRatio;
+		var updatedCanvasWidth=canvasWidth/reduceRatio;
+		var updatedImageHeight=imgHeight/reduceRatio;
+		var updatedImageWidth=imgWidth/reduceRatio;
+
+		//set the canvas and image properties
+		setCanvasImage(updatedCanvasHeight,updatedCanvasWidth,Math.round(updatedImageHeight),Math.round(updatedImageWidth));
 
 
 	//This method returns the fileID and AssetID
@@ -125,7 +144,8 @@ while(objAsset?.job_status!= "stopped")
 	await sleep(3000); 
 }//end of while
 $("#uiOverlay").dialog("close");
-finalObj.fileID = objAsset.imagefileId;
+
+imageMagickObj.fileID = fileurl.concat(objAsset.imagefileId,"/content/");
 finalObj.assetId = objAsset.imageassetId;
 return objAsset; 
 }
@@ -225,4 +245,59 @@ var img = new Image;
     img.src = url;
 
     return promise;
+}
+//The function is used to upload image for Canvas Collage
+async function uploadImageCanvas(filedata){
+	
+ var u = await imageSize(fileupload.files[0]);
+		imgHeight=u.height;
+		imgWidth=u.width;
+	
+if(!finalObj.metadata)	
+	finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
+
+var dimension=(finalObj.metadata[selectNodeName]).split("_");;
+var canvasHeight=dimension[0];
+var canvasWidth=dimension[1];
+var heightRatio= canvasHeight /imgHeight;
+var widthRatio= canvasWidth /imgWidth;
+finalObj[selectNodeName].ratio=1;
+//console.log("canHeight",canvasHeight,"canWidth",canvasWidth,imgHeight,imgWidth);
+if(heightRatio>widthRatio)
+{
+	
+	imgHeight=imgHeight*heightRatio;
+	imgWidth=imgWidth*heightRatio
+	
+}
+else
+{
+	imgHeight=imgHeight*widthRatio;
+	imgWidth=imgWidth*widthRatio;
+	
+}
+//remove the image;
+changeImage("");
+//set the canvas and image properties
+setCanvasImage(canvasHeight,canvasWidth,Math.round(imgHeight),Math.round(imgWidth));
+
+//This method returns the fileID and AssetID
+	$("#uiOverlay").dialog({
+	modal: true,
+	closeOnEscape: false,
+	dialogClass: "dialog-no-close",
+	}) 
+	var jobID= await uploadFileToThreeKit(filedata);
+	var objAsset=await getAssetIDfromJob(jobID);
+while(objAsset?.job_status!= "stopped")	
+{
+	objAsset=await getAssetIDfromJob(jobID); 
+	await sleep(3000); 
+}//end of while
+$("#uiOverlay").dialog("close");
+//finalObj[selectNodeName].fileID = objAsset.imagefileId;
+finalObj[selectNodeName].fileID = fileurl.concat(objAsset.imagefileId,"/content/");
+finalObj[selectNodeName].assetId = objAsset.imageassetId;
+
+return objAsset; 
 }

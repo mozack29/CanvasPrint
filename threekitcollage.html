@@ -57,16 +57,16 @@
 		<div style="width:55%; margin-left:22%" class="mui-panel" id="parent">
 				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="zoominoutimage('Plus')"><i class="fa fa-plus"></i></button>
 				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="zoominoutimage('Minus')"><i class="fa fa-minus"></i></button>
-				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="rotateimage();"><i class="fa fa-repeat"></i></button>
+				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="rotateimage();"><i class="fa fa-repeat"></i></button> 
 				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Right');"><i class="fa fa-arrow-right"></i></button>
-				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Left');"><i class="fa fa-arrow-left"></i></button>
+				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Left');"><i class="fa fa-arrow-left"></i></button> 
 				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Down');"><i class="fa fa-arrow-down"></i></button>
 				  <button class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="movefourdirection('Up');"><i class="fa fa-arrow-up"></i></button>
-                <!-- <button type="button" class="btn btn-primary b1" onclick="myFunction()">Rotate Canvas</button>--->
+				
                 <button type="button" class="mui-btn mui-btn--flat mui-btn--accent" id="button_to_enable" onclick="blacknwhiteimage()" ;>Black And White</button>
             </div>
 			<div style="width:55%; margin-left:22%" class="mui-panel" id="parent">
-			<input id="fileupload" type="file" name="fileupload" />
+			<input id="fileupload" type="file" name="fileupload"/>
             <button class="mui-btn mui-btn--accent id="upload-button"" onclick="uploadlocal();"> Upload </button>
 			<div id="results"></div>
 			<div id="uiOverlay" style="display: none;">Please wait</div>
@@ -74,8 +74,6 @@
 			<div style="width:55%; margin-left:22%" class="mui-panel" id="parent">
 			<button class="mui-btn mui-btn--accent" onclick="setBorder('Black')">Black</button>
 			<button class="mui-btn mui-btn--accent" onclick="setBorder('Grey')">Grey</button>
-			<button class="mui-btn mui-btn--accent" onclick="setBorder('Mirror')">Mirror</button>
-			<button class="mui-btn mui-btn--accent" onclick="setBorder('Blur')">Blur</button>
 			<button class="mui-btn mui-btn--accent" onclick="setBorder('White')">White</button>
 			<br>
 			<button class="mui-btn mui-btn--accent" onclick="addtocart();">Add To Cart</button> 
@@ -87,7 +85,7 @@
 
     <script>
         const authToken = 'e2be7601-d925-4ee0-a270-be355652264d'; //Canvas Prints Sandbox localhost
-        const assetId = 'cd8d180a-75aa-4cbb-9981-88ee8e445328';
+        const assetId = '1c857fd8-ed7e-4f7b-994d-2f6fcf69da50';
         const orgID = '00c181f6-4e03-411a-87fa-18a10b9f3ddb'; //Canvas Prints Sandbox
         var selectNodeID = '';
         var selectNodeName = '';
@@ -111,29 +109,22 @@
             .then(async api => {
                 window.api = api;
                 window.configurator = await api.getConfigurator();
-				var panelAssetid= getAssetIDforVariant(urlParams.get("variant"));
+				var panelAssetid= "0026dc28-906b-4ff7-9577-c26abf5b5012";//getAssetIDforVariant(urlParams.get("variant"));
 				configurator.setConfiguration({"panelName" : {assetId :panelAssetid}})
                 playerObj = api.enableApi('player')
-				
-	
                 addToolToScene();
             }); //end of async api
 
 		async function  uploadlocal(){
-				
-		var a=await uploadImage(fileupload.files[0]);
-		
-		
+		var a=await uploadImageCanvas(fileupload.files[0]);
 		changeImage(a.imageassetId);
 		function enableButton() {
             document.getElementById("button_to_enable").disabled = false;
         }
-		
 		}
-
     </script>
     <script src="uploadFiles.js"></script>
-	<script src="js/threekitcode.js"></script>
+	<script src="js/threekitcollagecode.js"></script>
 </body>
 
 </html>

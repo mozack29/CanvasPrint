@@ -69,8 +69,15 @@
 			<input id="fileupload" type="file" name="fileupload"/>
             <button class="mui-btn mui-btn--accent id="upload-button"" onclick="uploadlocal();"> Upload </button>
 			<div id="results"></div>
+			
 			<div id="uiOverlay" style="display: none;">Please wait</div>
 		    </div>
+					<div style="width:55%; margin-left:22%" class="mui-panel" id="parent">
+				<button class="mui-btn mui-btn--accent" onclick="changeLayout('32365183828055')">Classic Triptych</button>
+			<button class="mui-btn mui-btn--accent" onclick="changeLayout('32366536327255')">Classic Flow Triptych</button>
+			<button class="mui-btn mui-btn--accent" onclick="changeLayout('32365179535447')">Cozy</button>
+			<button class="mui-btn mui-btn--accent" onclick="changeLayout('32366542258263')">Cozy Flow</button>
+            </div>
 			<div style="width:55%; margin-left:22%" class="mui-panel" id="parent">
 			<button class="mui-btn mui-btn--accent" onclick="setBorder('Black')">Black</button>
 			<button class="mui-btn mui-btn--accent" onclick="setBorder('Grey')">Grey</button>
@@ -93,7 +100,8 @@
         var selectNodeName = '';
         var playerObj;
         var configuratorobj;
-        var finalObj = {};//This would store all the configurations of the images of the canvas. This needs to be passed to imagemagic.       
+        var finalObj = {};//This would store all the configurations of the images of the canvas. This needs to be passed to imagemagic.
+        var imageMagickObj={};//This would store all the configurations of the images of the canvas. This needs to be passed to imagemagic.		
 		const urlParams = new URLSearchParams(location.search);
 		window.threekitPlayer({
                 authToken,
