@@ -2,7 +2,7 @@
 /*
 change log
 1. 21-09-2021 File created - Updated getMaterialConfigurator,addToolToScene
-2. 
+2. 29-9-2021 Funciton updated to change the canvas size
 3. 
 
 */
@@ -249,14 +249,61 @@ function zoominoutimage(scale) {
             })
 
         }
+		function changeLayout(size)
+{
+	var sizeAssetid= getAssetIDforVariant(size);
+	configurator.setConfiguration({"Collage Size" : {assetId :sizeAssetid}});
+	showHideDepth(size);
+	
+}
+		function changeDepth(size)
+{
+	var sizeAssetid= getAssetIDforVariant(size);
+	
+	configurator.setConfiguration({"Depth" : {assetId :sizeAssetid}});
+	
+	
+}
+
 //to get the assetID mapped to Wall Display Model
 function getAssetIDforVariant(variantid)    {
     const mapCollage = new Map();
 
-    //walldisplay models
+    //Collage models
 
-        mapCollage.set('32358157451351', "b565ec2e-edcf-4e99-9f46-a0ff18f51776");//shunkawauken
-        
+        mapCollage.set('32379468283991', "0026dc28-906b-4ff7-9577-c26abf5b5012");// 3 prints
+		mapCollage.set('32387976626263', "89d18ffe-2bc9-41cc-a730-5db518d04bd6");// 3 prints alternative
+		mapCollage.set('32387976822871', "23418be9-6028-486e-9482-54b4e9768e87");// 4 prints
+		
+		mapCollage.set('32387976953943', "1a881a8c-aa32-4faf-a5ae-0e9a6187ca12");// 5 prints
+		mapCollage.set('32387977609303', "75db2a4f-cb21-4ca8-9ba9-fe262a2c69ce");// 6 prints
+		mapCollage.set('32387977740375', "ca94dda9-b60c-49e2-9156-eadb24c6897a");// 9 prints
+		
+		
+		mapCollage.set('32387977936983', "d9d1fa72-4ead-4ac6-b9c7-1033bc6b651f");//13 prints
+		mapCollage.set('32387978068055', "f7f23c05-6619-475a-b7bf-b7af11243e21");// 16 prints
+		
+		//collageSize
+		mapCollage.set('12', "170d0959-eee1-4b95-a75a-ce71ee678415");
+		mapCollage.set('18', "14126c12-9e2c-4cb3-9761-13af08fa27a0");
+		mapCollage.set('24', "30dacebf-c090-49e1-bccd-ee1ca3d105ec");
+		mapCollage.set('30', "5629515c-cae0-49ca-9ec0-c581c63d3fe9");
+		//depth size options
+		mapCollage.set('1', "952577cd-b9b3-4986-9704-6a21b576feca");
+		mapCollage.set('2', "b9b5fa33-d723-4606-a31e-44680a5ca372");
+		
+		        
         return mapCollage.get(variantid);
 
     }
+
+//to show hide options for canvas depth
+function showHideDepth(size){
+
+	var x = document.getElementById("CanvasDepth");
+	if(size==12)
+		 x.style.display = "block";
+	 else
+	 x.style.display = "none";
+	}
+	
