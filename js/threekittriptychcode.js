@@ -30,7 +30,7 @@ function setCanvasImage(cnH,cnW,imgH,imgW){
 	
 }
 //creatng data for cart and imageMagic
-function addtocart(){
+function  addtocart(){
     //console.log(playerObj.getConfigurator('panelName').metadata);
 	
 	//Need to reclculate ImageSize and update object
@@ -73,8 +73,14 @@ function addtocart(){
 	imageMagickObj.imageWidthCal = imgWidth;
 	
 	
+	result=  getSnaphot();
 	
-    	
+	
+	promiseB = result.then(function(resulta) {
+ imageMagickObj.snapshot=resulta;
+});
+	
+  //console.log(getSnaphot,"snapshot"); 	
     console.log(imageMagickObj);
 }
 //update the border
@@ -203,4 +209,18 @@ function changeLayout(variantid)
 	configurator.setConfiguration({"panelName" : {assetId :panelAssetid}});
 	
 	
+}
+
+function getSnaphot() {
+	
+
+   // const promise = new Promise((resolve, reject) => {
+     
+            
+
+     return (playerObj.snapshot());
+
+     //  });
+
+    //return promise;
 }
