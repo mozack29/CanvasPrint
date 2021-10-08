@@ -114,7 +114,7 @@ async function uploadImageTriptych(filedata){
 		imageMagickObj.imageWidthCal = imgWidth;
 		imageMagickObj.verticalMov=0;
 		imageMagickObj.horizontalMov=0;
-
+		imageMagickObj.border = 'Blur';
 
 		//remove the image;
 		changeImage("");
