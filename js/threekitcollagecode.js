@@ -33,6 +33,13 @@ function setCanvasImage(cnH,cnW,imgH,imgW){
 }   
 //creatng data for cart and imageMagic
 function addtocart(){
+		objDepth=configurator.getConfiguration().Collage_depth_scale;
+		if(objDepth==.01)
+			finalObj.depth="0.75";
+		else
+			finalObj.depth="1.5";
+		objCanvasSize=configurator.getConfiguration().Collage_size_scale;
+		finalObj.CanvasSize=objCanvasSize/0.01*12;
 		
 		console.log(finalObj);
 	}
@@ -123,7 +130,7 @@ function addToolToScene() {
                                 
                                 //node.setStyle({ outlineColor: '#00ff00', outlineThinkness: 5, color: '#ff0000', opacity: 0.5 });
                                 getMaterialConfigurator().then();
-								console.log(selectNodeName);
+								//console.log(selectNodeName);
                             }
 
                         }, //end of mouse event
@@ -237,7 +244,7 @@ function zoominoutimage(scale) {
 			}
 			
 			
-			console.log(imageRatio,height,width);
+			//console.log(imageRatio,height,width);
 			
 			finalObj[selectNodeName].ratio=imageRatio;
             finalObj[selectNodeName].imageHeight = height;
@@ -258,9 +265,9 @@ function zoominoutimage(scale) {
 }
 		function changeDepth(size)
 {
-	var sizeAssetid= getAssetIDforVariant(size);
+	var depthAssetid= getAssetIDforVariant(size);
 	
-	configurator.setConfiguration({"Depth" : {assetId :sizeAssetid}});
+	configurator.setConfiguration({"Depth" : {assetId :depthAssetid}});
 	
 	
 }

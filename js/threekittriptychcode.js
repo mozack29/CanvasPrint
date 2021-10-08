@@ -86,7 +86,7 @@ function  addtocart(){
 //update the border
 function setBorder(colorVal){
     var borderAssetID;
-    finalObj.border = colorVal;
+    imageMagickObj.border = colorVal;
 
     if (colorVal==='Black'){
     borderAssetID="63ccea68-4d3b-4637-9fca-962147956e89";
