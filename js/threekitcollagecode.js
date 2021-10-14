@@ -308,7 +308,7 @@ function getAssetIDforVariant(variantid)    {
 function showHideDepth(size){
 
 	var x = document.getElementById("CanvasDepth");
-	if(size==12)
+	if(size==12 || size==18 )
 		 x.style.display = "block";
 	 else
 	 x.style.display = "none";
