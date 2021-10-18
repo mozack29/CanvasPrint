@@ -191,12 +191,22 @@ function getAssetIDforVariant(variantid)    {
 
 
         //tripytch models
-
+		//mapping with  Production Variant ID
         mapWD.set('32365183828055', "f1633cfa-f462-49f1-9793-b484a5f80f3a");//Classic Triptych
         mapWD.set('32366536327255', "bd7167ba-af06-4ea3-82ed-8577f50f13a7");//Classic Flow Triptych
         mapWD.set('32365179535447', "93faf5a0-098b-4409-95dd-072dbe2ca3ca");//Cozy Triptych
         mapWD.set('32366542258263', "727fc1b0-75cf-43e2-9089-535eb9aae8de");//Cozy Flow Triptych
-        
+        //mapping with SKU
+		mapWD.set('CP-TRIP-CLAS-0000-001', "f1633cfa-f462-49f1-9793-b484a5f80f3a");//Classic Triptych
+        mapWD.set('CP-TRIP-CLFL-0000-001', "bd7167ba-af06-4ea3-82ed-8577f50f13a7");//Classic Flow Triptych
+        mapWD.set('CP-TRIP-COZ-0000-001', "93faf5a0-098b-4409-95dd-072dbe2ca3ca");//Cozy Triptych
+        mapWD.set('CP-TRIP-CZFL-0000-001', "727fc1b0-75cf-43e2-9089-535eb9aae8de");//Cozy Flow Triptych
+		//mapping with  Staging Variant ID
+        mapWD.set('41012112556213', "f1633cfa-f462-49f1-9793-b484a5f80f3a");//Classic Triptych
+        mapWD.set('41012112031925', "bd7167ba-af06-4ea3-82ed-8577f50f13a7");//Classic Flow Triptych
+        mapWD.set('41012113113269', "93faf5a0-098b-4409-95dd-072dbe2ca3ca");//Cozy Triptych
+        mapWD.set('41012111835317', "727fc1b0-75cf-43e2-9089-535eb9aae8de");//Cozy Flow Triptych
+	
         
         return mapWD.get(variantid);
 
