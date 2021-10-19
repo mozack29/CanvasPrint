@@ -149,6 +149,72 @@ imageMagickObj.fileID = fileurl.concat(objAsset.imagefileId,"/content/");
 finalObj.assetId = objAsset.imageassetId;
 return objAsset; 
 }
+//The function is used to upload image for Custom Canvas
+async function uploadImageCustom(filedata,canHeight,canWidth){
+ var u = await imageSize(fileupload.files[0]);
+		imgHeight=u.height;
+		imgWidth=u.width;
+
+
+		finalObj.imageHeightOriginal = imgHeight;
+		finalObj.imageWidthOriginal = imgWidth;
+		finalObj.ratio=1;
+		var canvasHeight=canHeight * 96;
+		var canvasWidth=canWidth * 96;
+		var heightRatio= canvasHeight /imgHeight;
+		var widthRatio= canvasWidth /imgWidth;
+
+
+		if(heightRatio>widthRatio)
+		{
+			
+			imgHeight=imgHeight*heightRatio;
+			imgWidth=imgWidth*heightRatio;
+			
+		}
+		else
+		{
+			imgHeight=imgHeight*widthRatio;
+			imgWidth=imgWidth*widthRatio;
+			
+		}
+		// storing Calculated values for final output
+		imageMagickObj.imageHeight = imgHeight;
+		imageMagickObj.imageWidth = imgWidth;
+		imageMagickObj.verticalMov=0;
+		imageMagickObj.horizontalMov=0;
+		imageMagickObj.border = 'Blur';
+
+		//remove the image;
+		changeImage("");
+		
+		
+		//set the canvas and image properties
+		setCanvasImage(canvasHeight,canvasWidth,Math.round(imgHeight),Math.round(imgWidth));
+
+
+	//This method returns the fileID and AssetID
+	$("#uiOverlay").dialog({
+	modal: true,
+	closeOnEscape: false,
+	dialogClass: "dialog-no-close",
+	}) 
+	var jobID= await uploadFileToThreeKit(filedata);
+	var objAsset=await getAssetIDfromJob(jobID);
+while(objAsset?.job_status!= "stopped")	
+{
+	objAsset=await getAssetIDfromJob(jobID); 
+	await sleep(3000); 
+}//end of while
+$("#uiOverlay").dialog("close");
+
+imageMagickObj.fileID = fileurl.concat(objAsset.imagefileId,"/content/");
+finalObj.assetId = objAsset.imageassetId;
+return objAsset; 
+}
+
+
+
 //upload file to 3Kit CDN
 async function uploadFileToThreeKit(filedata) {
 
