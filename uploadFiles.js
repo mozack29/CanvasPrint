@@ -17,7 +17,7 @@ async function uploadImage(filedata){
 		imgWidth=u.width;
 	
 if(!finalObj.metadata)	
-	finalObj.metadata=playerObj.configurator.metadata;//playerObj.getConfigurator('panelName').metadata; 
+	finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
 
 var dimension=(finalObj.metadata[selectNodeName]).split("_");;
 var canvasHeight=dimension[0];
