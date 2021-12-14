@@ -72,6 +72,15 @@ function changeImage(imageValue) {
         }
 //getting material Configurator	
 async function getMaterialConfigurator() {
+	
+	
+	if(selectNodeName === "")
+		return null;
+	var MaterialID=selectNodeName.split("_");
+	var MaterialName="Wall Material " + MaterialID[1];
+	//console.log(MaterialName);
+	configuratorobj = await api.getConfigurator(MaterialName);
+	/*
             const panelid = playerObj.configurator.appliedConfiguration["panelName"]
             var assetInstance = await playerObj.getAssetInstance({
                 id: panelid,
@@ -86,7 +95,7 @@ async function getMaterialConfigurator() {
                 name: 'FrontFace',
                 plug: 'Material',
                 property: 'reference'
-            })
+            })  */
         }
 //add select to scene	
 function addToolToScene() {
@@ -144,8 +153,10 @@ function addToolToScene() {
 function movefourdirection(direction) {
 		if(configuratorobj===null)
 			return;
-            var verticalPos = configuratorobj.appliedConfiguration["canvas_vertical_global"];
-            var horizontalPos = configuratorobj.appliedConfiguration["canvas_horizontal_global"];
+		   var objConfiguration =configuratorobj.getConfiguration();
+		
+            var verticalPos =objConfiguration.canvas_vertical_global; //configuratorobj.appliedConfiguration["canvas_vertical_global"];
+            var horizontalPos =objConfiguration.canvas_horizontal_global;// configuratorobj.appliedConfiguration["canvas_horizontal_global"];
 			var verticalMov=finalObj[selectNodeName].verticalMov;
 			var horizontalMov=finalObj[selectNodeName].horizontalMov;
 
@@ -185,7 +196,13 @@ function movefourdirection(direction) {
 function rotateimage() {
 if(configuratorobj===null)
 			return;
-            var rotate = configuratorobj.appliedConfiguration["canvas_rotation_global"];
+		
+		
+		    var objConfiguration =configuratorobj.getConfiguration();
+		
+            var verticalPos =objConfiguration.canvas_vertical_global; 
+		
+            var rotate =objConfiguration.canvas_rotation_global;  //configuratorobj.appliedConfiguration["canvas_rotation_global"];
             rotate = rotate + 5;
 			if(rotate>=360)
 				rotate=0;
@@ -199,8 +216,10 @@ if(configuratorobj===null)
 function blacknwhiteimage() {
 			if(configuratorobj===null)
 			return;
+			var objConfiguration =configuratorobj.getConfiguration();
 
-            var bw = configuratorobj.appliedConfiguration["blackwhite_global"];
+
+            var bw =objConfiguration.blackwhite_global;  //configuratorobj.appliedConfiguration["blackwhite_global"];
             //default false
             if (bw == false) {
                 configuratorobj.setConfiguration({
@@ -242,7 +261,7 @@ function zoominoutimage(scale) {
 			}
 			
 			
-			console.log(imageRatio,height,width);
+			//console.log(imageRatio,height,width);
 			
 			finalObj[selectNodeName].ratio=imageRatio;
             finalObj[selectNodeName].imageHeight = height;
