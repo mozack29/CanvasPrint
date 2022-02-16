@@ -2,7 +2,7 @@
 /*
 change log
 1. File created 18-oct
-
+2. Function added for snapshot
 
 */
 
@@ -31,7 +31,7 @@ function setCanvasImage(cnH,cnW,imgH,imgW){
 }
 //creatng data for cart and imageMagic
 function  addtocart(){
-    	
+    snapShot();
     console.log(imageMagickObj);
 }
 //update the border
@@ -244,3 +244,12 @@ function zoominoutimage(scale) {
             })
 
         }
+
+//snapshot code
+async function snapShot() {
+
+  playerObj.api.selectionSet.clear();
+  let resultimage = await playerObj.api.snapshotAsync();
+  imageMagickObj.resultimage = resultimage;
+
+}
