@@ -4,7 +4,7 @@ change log
 1. File created 
 2. added new function for Canvas uploadImageCanvas
 3. 22Sept- Updated uploadImageTriptych to add URL in fileID
-
+4. 22-Feb 2022 - Updated Threekit function to get the FileID
 */
 //This need to be changed based on the envionment
 var fileurl="https://preview.threekit.com/api/files/";	
@@ -25,7 +25,7 @@ var canvasWidth=dimension[1];
 var heightRatio= canvasHeight /imgHeight;
 var widthRatio= canvasWidth /imgWidth;
 finalObj[selectNodeName].ratio=1;
-//console.log("canHeight",canvasHeight,"canWidth",canvasWidth,imgHeight,imgWidth);
+
 if(heightRatio>widthRatio)
 {
 	
@@ -151,6 +151,7 @@ return objAsset;
 }
 //The function is used to upload image for Custom Canvas
 async function uploadImageCustom(filedata,canHeight,canWidth){
+	
  var u = await imageSize(fileupload.files[0]);
 		imgHeight=u.height;
 		imgWidth=u.width;
@@ -259,15 +260,14 @@ async function  getAssetIDfromJob(jobID){
         headers: myHeadersAsset,
         redirect: 'follow'
     };
-	
 	await fetch("https://preview.threekit.com/api/catalog/jobs/" + jobID + "?bearer_token=" + authToken + "&orgId" + orgID, requestOptionsAsset)
+	
                         .then(responseAsset => responseAsset.json())
                         .then((resultAsset) => {
                                 job_status = resultAsset.job.status;
                                 if (job_status === "stopped") {
-                                  								
-                                    imageassetId = resultAsset?.output?.texture[0]?.assetId;
-									imagefileId = resultAsset?.job?.parameters?.fileId;
+                                  		imageassetId = resultAsset?.output?.texture[0]?.assetId;
+									imagefileId = resultAsset?.job?.parameters?.files[0]?.fileId;
 							
                                 }
                             } //end then resultAsset
@@ -281,7 +281,7 @@ async function sleep(ms) {
 }
 //to resize canvasHeight/canWidth/imageSize upto 4k
 function updatedSize4k(canHeight,canWidth,imgHeight,imgWidth){
-	//console.log("i am in");
+	
 	var maxSide= Math.max(canHeight,canWidth,imgHeight,imgWidth);
 	var reduceRatio=maxSide/4096; //this is done to reduce the size upto 4K.
 	return reduceRatio;
@@ -328,7 +328,6 @@ var canvasWidth=dimension[1];
 var heightRatio= canvasHeight /imgHeight;
 var widthRatio= canvasWidth /imgWidth;
 finalObj[selectNodeName].ratio=1;
-//console.log("canHeight",canvasHeight,"canWidth",canvasWidth,imgHeight,imgWidth);
 if(heightRatio>widthRatio)
 {
 	
