@@ -3,7 +3,7 @@
 change log
 1. File created 18-oct
 2. Function added for snapshot
-
+3. Function updated for snapshot from base64 to URL
 */
 
 //function to set the CanvasSize and image size onload
@@ -249,7 +249,7 @@ function zoominoutimage(scale) {
 async function snapShot() {
 
   playerObj.api.selectionSet.clear();
-  let resultimage = await playerObj.api.snapshotAsync();
+  let resultimage = await getSnapShotUrl(assetId,orgID);
   imageMagickObj.resultimage = resultimage;
 
 }
