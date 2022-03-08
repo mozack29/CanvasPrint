@@ -5,6 +5,7 @@ change log
 2. added new function for Canvas uploadImageCanvas
 3. 22Sept- Updated uploadImageTriptych to add URL in fileID
 4. 22-Feb 2022 - Updated Threekit function to get the FileID
+5. 8 March -2022 - Added a function to upload snapshot and return url
 */
 //This need to be changed based on the envionment
 var fileurl="https://preview.threekit.com/api/files/";	
@@ -365,4 +366,55 @@ finalObj[selectNodeName].fileID = fileurl.concat(objAsset.imagefileId,"/content/
 finalObj[selectNodeName].assetId = objAsset.imageassetId;
 
 return objAsset; 
+}
+//function to savesnaphot and get URL
+async function getSnapShotUrl(productId,orgId) {
+  await playerObj.selectionSet.clear();
+  let base64Img = await playerObj.api.snapshotAsync();
+  // Getting Blob from base64 then converting it to file
+
+  let imgBlob = await fetch(base64Img)
+    .then((res) => res.blob())
+    .then((res) => {
+      return res;
+    });
+
+  // Saving file to configuration
+
+  const imgFile = new File([imgBlob], "thumbnail.png");
+  //console.log(imgFile);
+
+  var myHeaders = new Headers();
+  let variant = {
+    ExampleVariantField1: "ExampleValue1",
+  };
+  var formdata = new FormData();
+  formdata.append("files", imgFile);
+  formdata.append("orgId", orgId);
+  formdata.append("productId", productId);
+  formdata.append("productVersion", "snapshot1.0");
+
+  formdata.append("variant", JSON.stringify(variant));
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: formdata,
+    redirect: "follow",
+  };
+  //console.log(imgFile);
+  let response = await fetch(
+    "https://preview.threekit.com/api/configurations?bearer_token=" + authToken,
+    requestOptions
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      return JSON.parse(result);
+    })
+    .catch((error) => console.log("error", error));
+ // console.log(response);
+
+  let finalUrl = `https://preview.threekit.com/api/files/hash/`+response.thumbnail;
+
+  return finalUrl;
 }
