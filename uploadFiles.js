@@ -370,7 +370,10 @@ return objAsset;
 //function to savesnaphot and get URL
 async function getSnapShotUrl(productId,orgId) {
   await playerObj.selectionSet.clear();
-  let base64Img = await playerObj.api.snapshotAsync();
+  let scenceInstanceId = await playerObj.api.player.getAssetInstance({id : playerObj.instanceId, plug : 'Proxy',property : 'asset'})
+  let cameraId = playerObj.api.scene.findNode({from : scenceInstanceId, name : 'SnapShot'})
+  //console.log(cameraId);
+  let base64Img = await playerObj.api.snapshotAsync({cameraId : cameraId , size : {height : 300 , width : 300}});
   // Getting Blob from base64 then converting it to file
 
   let imgBlob = await fetch(base64Img)
