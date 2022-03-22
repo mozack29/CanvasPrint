@@ -4,6 +4,7 @@ change log
 1. File created 18-oct
 2. Function added for snapshot
 3. Function updated for snapshot from base64 to URL
+4. Function added to change the depth
 */
 
 //function to set the CanvasSize and image size onload
@@ -244,7 +245,14 @@ function zoominoutimage(scale) {
             })
 
         }
-
+//change depth
+function changedepth(val)
+{
+	if(val == "0.75" || val=="1.5")
+	playerObj.configurator.setConfiguration({"BorderSize" : val});
+else 
+	console.log("not valid value");
+}
 //snapshot code
 async function snapShot() {
 
