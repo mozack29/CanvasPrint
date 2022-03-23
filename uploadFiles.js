@@ -6,6 +6,7 @@ change log
 3. 22Sept- Updated uploadImageTriptych to add URL in fileID
 4. 22-Feb 2022 - Updated Threekit function to get the FileID
 5. 8 March -2022 - Added a function to upload snapshot and return url
+6. 23 March-2022- Updated Threekit API to reduce the uplaod time
 */
 //This need to be changed based on the envionment
 var fileurl="https://preview.threekit.com/api/files/";	
@@ -206,7 +207,7 @@ async function uploadImageCustom(filedata,canHeight,canWidth){
 while(objAsset?.job_status!= "stopped")	
 {
 	objAsset=await getAssetIDfromJob(jobID); 
-	await sleep(3000); 
+	await sleep(1000); 
 }//end of while
 $("#uiOverlay").dialog("close");
 
@@ -225,6 +226,8 @@ async function uploadFileToThreeKit(filedata) {
     var formdata = new FormData();
     formdata.append("orgId", orgID);
     formdata.append("files", filedata);
+	formdata.append("sync", true);
+	
 
     var requestOptionsUpload = {
         method: 'POST',
@@ -239,7 +242,8 @@ async function uploadFileToThreeKit(filedata) {
         .then(response => response.json())
         .then((result) => {
                 //						
-                jobIdGlobal = result[0].jobId;
+                //console.log(result);
+				jobIdGlobal = result[0].jobId;
                 
                
 				
