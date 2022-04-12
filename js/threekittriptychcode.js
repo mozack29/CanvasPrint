@@ -4,14 +4,14 @@ change log
 1. File created 
 2. 12-sept added new function setCAnvas and removed whihch were not required for Triptych
 3. 22- Sept Added new funciton change Layout, updated add to cart function 
-
+4. 5 april 2022 - updated changeLayout function to update the metadata
 */
 
 //function to set the CanvasSize and image size onload
 function setCanvasImage(cnH,cnW,imgH,imgW){
-	
+	console.log("setsize");
 	   configurator.setConfiguration({
-                "imageposHorizontal": imgW/2, // this is exception done. Because the current setup using image position and not canvas for Horizintal 
+                "imageposHorizontal": cnW/2, // this is exception done. Because the current setup using image position and not canvas for Horizintal 
                 "imageposVertical": cnH/2,
 				"canvas_width_orig": cnW,
 				"canvas_height_orig": Math.round(cnH),
@@ -81,7 +81,7 @@ function  addtocart(){
 });
 	
   //console.log(getSnaphot,"snapshot"); 	
-    console.log(imageMagickObj);
+    console.log(imageMagickObj,finalObj);
 }
 //update the border
 function setBorder(colorVal){
@@ -217,7 +217,7 @@ function changeLayout(variantid)
 	var panelAssetid= getAssetIDforVariant(variantid);
 	
 	configurator.setConfiguration({"panelName" : {assetId :panelAssetid}});
-	
+	finalObj.metadata=playerObj.getConfigurator('panelName').metadata; 
 	
 }
 
