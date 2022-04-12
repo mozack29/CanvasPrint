@@ -5,35 +5,45 @@ change log
 2. Function added for snapshot
 3. Function updated for snapshot from base64 to URL
 4. Function added to change the depth
+5. Need to update the code for frames more than 4K, update zoom function
 */
 
-//function to set the CanvasSize and image size onload
-function setCanvasImage(cnH,cnW,imgH,imgW){
-	
+//function to set the FrameSize,CanvasSize and image size onload. Here canvas is refered to Threekitobject on which image get loaded. And Frame is Canvas Print canvas 
+function setCanvasImage(frmH,frmW,cnH,cnW,imgH,imgW){
+	//console.log("cnH",cnH,cnW,"imgH",imgH,"imgw",imgW);	
 	   configurator.setConfiguration({
                 "canvas_horizontal_global": cnW/2, // this is exception done. Because the current setup using image position and not canvas for Horizintal 
                 "canvas_vertical_global": cnH/2,
 				"canvas_width_orig": cnW,
 				"canvas_height_orig": cnH,
 				"image_height":imgH,
-				"image_width":imgW
-
+				"image_width":imgW,
+				"Frame_Width" : frmW,
+				"Frame_Height" : frmH
             })
 
-	
+
 	 imageMagickObj.verticalPos = cnH/2;
      imageMagickObj.horizontalPos = cnW/2;
-	 imageMagickObj.imageHeight = imgH;
-	 imageMagickObj.imageWidth = imgW;
+	 imageMagickObj.imageHeight = imgH;// * finalObj.reduceRatio;
+	 imageMagickObj.imageWidth = imgW;// * finalObj.reduceRatio;
 	 imageMagickObj.verticalMov = 0;
 	 imageMagickObj.horizontalMov = 0;
-	imageMagickObj.canHeight=cnH;
-	imageMagickObj.canWidth=cnW;
+	imageMagickObj.canHeight=frmH;
+	imageMagickObj.canWidth=frmW;
 }
 //creatng data for cart and imageMagic
 function  addtocart(){
     snapShot();
+	
+	 imageMagickObj.imageHeight = Math.round(imageMagickObj.imageHeight * finalObj.reduceRatio);
+	 imageMagickObj.imageWidth = Math.round(imageMagickObj.imageWidth * finalObj.reduceRatio);
+	 imageMagickObj.verticalPos = Math.round(imageMagickObj.verticalPos * finalObj.reduceRatio);
+	 imageMagickObj.horizontalPos = Math.round(imageMagickObj.horizontalPos * finalObj.reduceRatio);
+	
     console.log(imageMagickObj);
+	//console.log(finalObj);
+	
 }
 //update the border
 function setBorder(colorVal){
@@ -150,18 +160,21 @@ function getAssetIDforVariant(variantid)    {
     }
 //the function will change the size of the canvas and reset the image
 function changeLayout(){
-	var canWidth = document.getElementById("canWidth").value;
-	var canHeight= document.getElementById("canHeight").value;
-	if(canWidth<8 || canWidth >40 || canHeight<8 || canHeight >40)
+	
+	//console.log("changeLayout");
+	
+	var canvasWidth = document.getElementById("canWidth").value;
+	var canvasHeight= document.getElementById("canHeight").value;
+	if(canvasWidth<8 || canvasWidth >60 || canvasHeight<8 || canvasHeight >60)
 		return;
-	canHeight=canHeight * 96;
-	canWidth = canWidth * 96;
+	canvasHeight=canvasHeight * 96;
+	canvasWidth = canvasWidth * 96;
 	
 	var imgHeight=finalObj.imageHeightOriginal;
 	var imgWidth=finalObj.imageWidthOriginal;
-	
-	var heightRatio= canHeight /imgHeight;
-	var widthRatio= canWidth /imgWidth;
+	console.log("changeLayout >>original",imgHeight,imgWidth)
+	var heightRatio= canvasHeight /imgHeight;
+	var widthRatio= canvasWidth /imgWidth;
 
 	if(heightRatio>widthRatio)
 		{
@@ -178,7 +191,19 @@ function changeLayout(){
 		}
 
 
-	setCanvasImage(canHeight ,canWidth,imgHeight,imgWidth);//cnH,cnW,imgH,imgW
+		var reduceRatio=updatedSize4k(canvasHeight,canvasWidth,imgHeight,imgWidth); //Matching it to 4k size 
+		
+		finalObj.reduceRatio=reduceRatio;
+		var updatedCanvasHeight=canvasHeight/reduceRatio;
+		var updatedCanvasWidth=canvasWidth/reduceRatio;
+		var updatedImageHeight=imgHeight/reduceRatio;
+		var updatedImageWidth=imgWidth/reduceRatio;
+
+
+		//set the canvas and image properties -- Passing Frame height and width. Threekit- Canvas height and width , Image height and width 
+		setCanvasImage(canvasHeight,canvasWidth,updatedCanvasHeight,updatedCanvasWidth,Math.round(updatedImageHeight),Math.round(updatedImageWidth));
+
+	
 	
 	//reset rotation
 	   var rotate = 0;
@@ -214,7 +239,6 @@ function zoominoutimage(scale) {
 			var imageRatio=finalObj.ratio;
 			var height = imageMagickObj.imageHeight;
             var width = imageMagickObj.imageWidth;
-			
 			if(imageRatio===0)
 			return;
 
@@ -238,8 +262,7 @@ function zoominoutimage(scale) {
 			finalObj.ratio=imageRatio;
             imageMagickObj.imageHeight = height;
             imageMagickObj.imageWidth = width;
-
-            configurator.setConfiguration({
+			configurator.setConfiguration({
                 "image_height": height,
                 "image_width": width
             })
@@ -261,3 +284,4 @@ async function snapShot() {
   imageMagickObj.resultimage = resultimage;
 
 }
+

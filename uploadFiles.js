@@ -162,8 +162,8 @@ async function uploadImageCustom(filedata,canHeight,canWidth){
 		finalObj.imageHeightOriginal = imgHeight;
 		finalObj.imageWidthOriginal = imgWidth;
 		finalObj.ratio=1;
-		var canvasHeight=canHeight * 96;
-		var canvasWidth=canWidth * 96;
+		var canvasHeight=canHeight * 96;//Frame Height
+		var canvasWidth=canWidth * 96;//Frame Width
 		var heightRatio= canvasHeight /imgHeight;
 		var widthRatio= canvasWidth /imgWidth;
 
@@ -184,6 +184,8 @@ async function uploadImageCustom(filedata,canHeight,canWidth){
 		// storing Calculated values for final output
 		imageMagickObj.imageHeight = imgHeight;
 		imageMagickObj.imageWidth = imgWidth;
+		imageMagickObj.canHeight=canvasHeight;
+		imageMagickObj.canWidth=canvasWidth;
 		imageMagickObj.verticalMov=0;
 		imageMagickObj.horizontalMov=0;
 		imageMagickObj.border = 'Blur';
@@ -192,9 +194,20 @@ async function uploadImageCustom(filedata,canHeight,canWidth){
 		changeImage("");
 		
 		
-		//set the canvas and image properties
-		setCanvasImage(canvasHeight,canvasWidth,Math.round(imgHeight),Math.round(imgWidth));
+		
+		var reduceRatio=updatedSize4k(canvasHeight,canvasWidth,imgHeight,imgWidth); //Matching it to 4k size 
+		
+		finalObj.reduceRatio=reduceRatio;
+		var updatedCanvasHeight=canvasHeight/reduceRatio;
+		var updatedCanvasWidth=canvasWidth/reduceRatio;
+		var updatedImageHeight=imgHeight/reduceRatio;
+		var updatedImageWidth=imgWidth/reduceRatio;
 
+		//set the canvas and image properties -- Passing Frame height and width. Threekit- Canvas height and width , Image height and width 
+		setCanvasImage(canvasHeight,canvasWidth,updatedCanvasHeight,updatedCanvasWidth,Math.round(updatedImageHeight),Math.round(updatedImageWidth));
+		
+		
+		
 
 	//This method returns the fileID and AssetID
 	$("#uiOverlay").dialog({
