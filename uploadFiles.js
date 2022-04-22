@@ -229,6 +229,83 @@ finalObj.assetId = objAsset.imageassetId;
 return objAsset; 
 }
 
+//The function is used to upload image for Pillow
+async function uploadImagePillow(filedata,canHeight,canWidth){
+	
+ var u = await imageSize(fileupload.files[0]);
+		imgHeight=u.height;
+		imgWidth=u.width;
+
+
+		finalObj.imageHeightOriginal = imgHeight;
+		finalObj.imageWidthOriginal = imgWidth;
+		finalObj.ratio=1;
+		var canvasHeight=canHeight * 96;//Frame Height
+		var canvasWidth=canWidth * 96;//Frame Width
+		var heightRatio= canvasHeight /imgHeight;
+		var widthRatio= canvasWidth /imgWidth;
+
+
+		if(heightRatio>widthRatio)
+		{
+			
+			imgHeight=imgHeight*heightRatio;
+			imgWidth=imgWidth*heightRatio;
+			
+		}
+		else
+		{
+			imgHeight=imgHeight*widthRatio;
+			imgWidth=imgWidth*widthRatio;
+			
+		}
+		// storing Calculated values for final output
+		imageMagickObj.imageHeight = imgHeight;
+		imageMagickObj.imageWidth = imgWidth;
+		imageMagickObj.canHeight=canvasHeight;
+		imageMagickObj.canWidth=canvasWidth;
+		imageMagickObj.verticalMov=0;
+		imageMagickObj.horizontalMov=0;
+		
+
+		//remove the image;
+		changeImage("");
+		
+		
+		
+		var reduceRatio=updatedSize4k(canvasHeight,canvasWidth,imgHeight,imgWidth); //Matching it to 4k size 
+		
+		finalObj.reduceRatio=reduceRatio;
+		var updatedCanvasHeight=canvasHeight/reduceRatio;
+		var updatedCanvasWidth=canvasWidth/reduceRatio;
+		var updatedImageHeight=imgHeight/reduceRatio;
+		var updatedImageWidth=imgWidth/reduceRatio;
+
+		//set the canvas and image properties -- Passing Frame height and width. Threekit- Canvas height and width , Image height and width 
+		setCanvasImage(updatedCanvasHeight,updatedCanvasWidth,updatedImageHeight,updatedImageWidth);
+		
+		
+		
+
+	//This method returns the fileID and AssetID
+	$("#uiOverlay").dialog({
+	modal: true,
+	closeOnEscape: false,
+	dialogClass: "dialog-no-close",
+	}) 
+	var jobID= await uploadFileToThreeKit(filedata);
+	var objAsset=await getAssetIDfromJob(jobID);
+while(objAsset?.job_status!= "stopped")	
+{
+	objAsset=await getAssetIDfromJob(jobID); 
+	await sleep(1000); 
+}//end of while
+$("#uiOverlay").dialog("close");
+
+imageMagickObj.fileID = fileurl.concat(objAsset.imagefileId,"/content/");
+finalObj.assetId = objAsset.imageassetId;
+return objAsset; 
+}
 
 
 //upload file to 3Kit CDN
