@@ -7,6 +7,7 @@ change log
 4. 22-Feb 2022 - Updated Threekit function to get the FileID
 5. 8 March -2022 - Added a function to upload snapshot and return url
 6. 23 March-2022- Updated Threekit API to reduce the uplaod time
+7. 26 April 2022- Added function to upload image for Pillow
 */
 //This need to be changed based on the envionment
 var fileurl="https://preview.threekit.com/api/files/";	
@@ -266,8 +267,6 @@ async function uploadImagePillow(filedata,canHeight,canWidth){
 		imageMagickObj.canWidth=canvasWidth;
 		imageMagickObj.verticalMov=0;
 		imageMagickObj.horizontalMov=0;
-		
-
 		//remove the image;
 		changeImage("");
 		
@@ -282,7 +281,7 @@ async function uploadImagePillow(filedata,canHeight,canWidth){
 		var updatedImageWidth=imgWidth/reduceRatio;
 
 		//set the canvas and image properties -- Passing Frame height and width. Threekit- Canvas height and width , Image height and width 
-		setCanvasImage(updatedCanvasHeight,updatedCanvasWidth,updatedImageHeight,updatedImageWidth);
+		setCanvasImage(canvasHeight,canvasWidth,updatedCanvasHeight,updatedCanvasWidth,Math.round(updatedImageHeight),Math.round(updatedImageWidth));
 		
 		
 		
@@ -306,7 +305,6 @@ imageMagickObj.fileID = fileurl.concat(objAsset.imagefileId,"/content/");
 finalObj.assetId = objAsset.imageassetId;
 return objAsset; 
 }
-
 
 //upload file to 3Kit CDN
 async function uploadFileToThreeKit(filedata) {

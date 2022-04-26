@@ -12,7 +12,7 @@ change log
 function setCanvasImage(frmH,frmW,cnH,cnW,imgH,imgW){
 	//console.log("cnH",cnH,cnW,"imgH",imgH,"imgw",imgW);	
 	   configurator.setConfiguration({
-                "canvas_horizontal_global": cnW/2, // this is exception done. Because the current setup using image position and not canvas for Horizintal 
+                "canvas_horizontal_global": cnW/2, // 
                 "canvas_vertical_global": cnH/2,
 				"canvas_width_orig": cnW,
 				"canvas_height_orig": cnH,

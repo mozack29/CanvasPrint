@@ -1,20 +1,22 @@
-//the file is used for Pillow
+//the file is used for Custom Pillow
 /*
 change log
 1. File created 14-April
+
 */
 
 //function to set the FrameSize,CanvasSize and image size onload. Here canvas is refered to Threekitobject on which image get loaded. And Frame is Canvas Print canvas 
-function setCanvasImage(cnH,cnW,imgH,imgW){
+function setCanvasImage(frmH,frmW,cnH,cnW,imgH,imgW){
 	//console.log("cnH",cnH,cnW,"imgH",imgH,"imgw",imgW);	
 	   configurator.setConfiguration({
-                "canvas_horizontal_global": cnW/2, // this is exception done. Because the current setup using image position and not canvas for Horizintal 
+                "canvas_horizontal_global": cnW/2, // 
                 "canvas_vertical_global": cnH/2,
 				"canvas_width_orig": cnW,
 				"canvas_height_orig": cnH,
 				"image_height":imgH,
 				"image_width":imgW,
-				
+				"Frame_Width" : frmW,
+				"Frame_Height" : frmH
             })
 
 
@@ -24,8 +26,8 @@ function setCanvasImage(cnH,cnW,imgH,imgW){
 	 imageMagickObj.imageWidth = imgW;// * finalObj.reduceRatio;
 	 imageMagickObj.verticalMov = 0;
 	 imageMagickObj.horizontalMov = 0;
-	imageMagickObj.canHeight=cnH;
-	imageMagickObj.canWidth=cnW;
+	imageMagickObj.canHeight=frmH;
+	imageMagickObj.canWidth=frmW;
 }
 //creatng data for cart and imageMagic
 function  addtocart(){
@@ -96,6 +98,7 @@ function movefourdirection(direction) {
     }
 //to change the image balck and white
 function blacknwhiteimage() {
+	console.log("blackand white");
         if(configurator===null)
         return;
 
@@ -115,14 +118,7 @@ function blacknwhiteimage() {
 
         }
     }
-//to get the assetID mapped to custom model
-function getAssetIDforVariant(variantid)    {
-    const mapWD = new Map();
 
-        
-        return mapWD.get(variantid);
-
-    }
 //the function will change the size of the canvas and reset the image
 function changeLayout(){
 	
@@ -130,7 +126,7 @@ function changeLayout(){
 	
 	var canvasWidth = document.getElementById("canWidth").value;
 	var canvasHeight= document.getElementById("canHeight").value;
-	if(canvasWidth<10 || canvasWidth >26 || canvasHeight<10 || canvasHeight >26)
+	if(canvasWidth<8 || canvasWidth >26 || canvasHeight<8 || canvasHeight >26)
 		return;
 	canvasHeight=canvasHeight * 96;
 	canvasWidth = canvasWidth * 96;
@@ -166,7 +162,7 @@ function changeLayout(){
 
 
 		//set the canvas and image properties -- Passing Frame height and width. Threekit- Canvas height and width , Image height and width 
-		setCanvasImage(updatedCanvasHeight,updatedCanvasWidth,updatedImageHeight,updatedImageWidth);
+		setCanvasImage(canvasHeight,canvasWidth,updatedCanvasHeight,updatedCanvasWidth,Math.round(updatedImageHeight),Math.round(updatedImageWidth));
 
 	
 	
@@ -233,7 +229,6 @@ function zoominoutimage(scale) {
             })
 
         }
-
 //snapshot code
 async function snapShot() {
 

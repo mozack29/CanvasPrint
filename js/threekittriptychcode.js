@@ -9,7 +9,7 @@ change log
 
 //function to set the CanvasSize and image size onload
 function setCanvasImage(cnH,cnW,imgH,imgW){
-	console.log("setsize");
+	//console.log("setsize cn h w Image h w",cnH,cnW,imgH,imgW);
 	   configurator.setConfiguration({
                 "imageposHorizontal": cnW/2, // this is exception done. Because the current setup using image position and not canvas for Horizintal 
                 "imageposVertical": cnH/2,

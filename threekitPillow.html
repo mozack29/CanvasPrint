@@ -80,7 +80,8 @@
 			<div id="uiOverlay" style="display: none;">Please wait</div>
 		    </div>
 				
-	
+	<br>
+			<button class="mui-btn mui-btn--accent" onclick="addtocart();">Add To Cart</button> 
     </section>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -121,6 +122,7 @@
 		async function  uploadlocal(){
 		var canWidth = document.getElementById("canWidth").value;
 		var canHeight= document.getElementById("canHeight").value;
+		
 		var a=await uploadImagePillow(fileupload.files[0],canHeight,canWidth)
 		
 		changeImage(a.imageassetId);
