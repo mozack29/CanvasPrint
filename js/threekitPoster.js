@@ -10,8 +10,8 @@ change log
 
 //function to set the FrameSize,CanvasSize and image size onload. Here canvas is refered to Threekitobject on which image get loaded. And Frame is Canvas Print canvas 
 function setCanvasImage(frmH,frmW,cnH,cnW,imgH,imgW){
-	console.log("hello");
-	console.log("frmH W",frmH,frmW, "cnH",cnH,cnW,"imgH",imgH,"imgw",imgW);	
+	//console.log("hello");
+	//console.log("frmH W",frmH,frmW, "cnH",cnH,cnW,"imgH",imgH,"imgw",imgW);	
 	   configurator.setConfiguration({
                 "canvas_horizontal_global": cnW/2, // 
                 "canvas_vertical_global": cnH/2,
@@ -48,7 +48,7 @@ function  addtocart(){
 }
 //update the border
 function setBorder(){
-	console.log("inside setborder");
+	//console.log("inside setborder");
     var borderSize = document.getElementById("canBorder").value;
     imageMagickObj.border = borderSize;
 
@@ -59,7 +59,7 @@ function setBorder(){
     borderAssetID="384129b0-b205-4ecc-b9a0-a7d5ed46671e";
     }
     else if (borderSize==='0.5'){
-    borderAssetID="";
+    borderAssetID="065f5ead-6e35-4016-9f91-fc452444ac7f";
     }
    
     else {
