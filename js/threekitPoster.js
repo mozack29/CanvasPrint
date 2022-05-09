@@ -277,3 +277,23 @@ async function snapShot() {
 
 }
 
+function setFinish(colorVal){
+    var borderAssetID;
+    imageMagickObj.Finish = colorVal;
+
+    if (colorVal==='Satin'){
+    borderAssetID="87397c36-36e8-4c65-88b8-a51d7dce4edd";
+    }
+    else if (colorVal==='Glossy'){
+    borderAssetID="71346312-d1ae-4649-9940-72d6ab672d60";
+    }
+    else if (colorVal==='Matte'){
+    borderAssetID="50eb0c8e-b89c-4af8-8ff2-e91552630982";
+    }
+   
+    else {
+    borderAssetID="71346312-d1ae-4649-9940-72d6ab672d60"; //Glossy
+    
+    }
+    configurator.setConfiguration({"PosterFinish" : {assetId :borderAssetID}}); 
+}
