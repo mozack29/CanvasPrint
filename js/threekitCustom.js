@@ -10,7 +10,8 @@ change log
 
 //function to set the FrameSize,CanvasSize and image size onload. Here canvas is refered to Threekitobject on which image get loaded. And Frame is Canvas Print canvas 
 function setCanvasImage(frmH,frmW,cnH,cnW,imgH,imgW){
-	//console.log("cnH",cnH,cnW,"imgH",imgH,"imgw",imgW);	
+	//console.log("hello");
+	//console.log("frmH W",frmH,frmW, "cnH",cnH,cnW,"imgH",imgH,"imgw",imgW);	
 	   configurator.setConfiguration({
                 "canvas_horizontal_global": cnW/2, // 
                 "canvas_vertical_global": cnH/2,
@@ -71,6 +72,7 @@ function setBorder(colorVal){
 }
 //update the image in canvas	
 function changeImage(imageValue) {
+	console.log(imageValue);
 
         configurator.setConfiguration({
             'sourceImage': {
@@ -148,12 +150,6 @@ function getAssetIDforVariant(variantid)    {
     const mapWD = new Map();
 
     
-
-
-
-
-        
-	
         
         return mapWD.get(variantid);
 
@@ -256,7 +252,7 @@ function zoominoutimage(scale) {
 				width=width - width * .1;
 			}
 			
-			
+			console.log("imahe height,width",height,width);
 			
 			
 			finalObj.ratio=imageRatio;
