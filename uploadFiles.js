@@ -152,7 +152,7 @@ imageMagickObj.fileID = fileurl.concat(objAsset.imagefileId,"/content/");
 finalObj.assetId = objAsset.imageassetId;
 return objAsset; 
 }
-//The function is used to upload image for Custom Canvas and Poster
+//The function is used to upload image for Custom Canvas ,Poster, Metal Finish
 async function uploadImageCustom(filedata,canHeight,canWidth){
 	
  var u = await imageSize(fileupload.files[0]);
@@ -375,9 +375,8 @@ async function sleep(ms) {
 //to resize canvasHeight/canWidth/imageSize upto 4k
 function updatedSize4k(canHeight,canWidth,imgHeight,imgWidth){
 	
-	//var maxSide= Math.max(canHeight,canWidth,imgHeight,imgWidth);
-	var reduceRatio=4;//maxSide/4096; //this is done to reduce the size upto 4K.
-	//console.log("reduce ratio",reduceRatio);
+	
+	var reduceRatio=4;
 	return reduceRatio;
 }
 //function to get the imageSize
