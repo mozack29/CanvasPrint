@@ -131,6 +131,8 @@
 		async function  uploadlocal(){
 		var canWidth = document.getElementById("canWidth").value;
 		var canHeight= document.getElementById("canHeight").value;
+		finalObj.frmH=canHeight * 96;
+		finalObj.frmW=canWidth * 96;
 		var a=await uploadImageCustom(fileupload.files[0],canHeight,canWidth)
 		
 		changeImage(a.imageassetId);

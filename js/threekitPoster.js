@@ -51,21 +51,29 @@ function setBorder(){
 	//console.log("inside setborder");
     var borderSize = document.getElementById("canBorder").value;
     imageMagickObj.border = borderSize;
-
-    if (borderSize==='0'){
+	
+	var frmHeight=finalObj.frmH;
+	var frmWidth=finalObj.frmW;
+    
+	if (borderSize==='0'){
     borderAssetID="76e75bde-1ca8-4e84-849a-948feb91bcb4";//Full bleed
     }
     else if (borderSize==='1'){
     borderAssetID="384129b0-b205-4ecc-b9a0-a7d5ed46671e";
-    }
+    frmHeight=frmHeight-192;
+	frmWidth=frmWidth-192;
+	}
     else if (borderSize==='0.5'){
     borderAssetID="065f5ead-6e35-4016-9f91-fc452444ac7f";
+	frmHeight=frmHeight-96;
+	frmWidth=frmWidth-96;
     }
    
     else {
     borderAssetID="76e75bde-1ca8-4e84-849a-948feb91bcb4"; //Full Bleed
     
     }
+	changeCanHeiWid(frmHeight,frmWidth);
     configurator.setConfiguration({"Poster_Border" : {assetId :borderAssetID}}); 
 }
 //update the image in canvas	
@@ -168,10 +176,16 @@ function changeLayout(){
 		return;
 	canvasHeight=canvasHeight * 96;
 	canvasWidth = canvasWidth * 96;
-	
+	finalObj.frmH=canvasHeight;
+	finalObj.frmW=canvasWidth;
+	changeCanHeiWid(canvasHeight,canvasWidth);
+}
+//the function will change the size of the canvas and reset the image
+function changeCanHeiWid(canvasHeight,canvasWidth)
+{	
 	var imgHeight=finalObj.imageHeightOriginal;
 	var imgWidth=finalObj.imageWidthOriginal;
-	console.log("changeLayout >>original",imgHeight,imgWidth)
+	
 	var heightRatio= canvasHeight /imgHeight;
 	var widthRatio= canvasWidth /imgWidth;
 
