@@ -6,6 +6,7 @@ change log
 3. Function updated for snapshot from base64 to URL
 4. Function added to change the depth
 5. Need to update the code for frames more than 4K, update zoom function
+6. Function added to show Frame
 */
 
 //function to set the FrameSize,CanvasSize and image size onload. Here canvas is refered to Threekitobject on which image get loaded. And Frame is Canvas Print canvas 
@@ -168,7 +169,7 @@ function changeLayout(){
 	
 	var imgHeight=finalObj.imageHeightOriginal;
 	var imgWidth=finalObj.imageWidthOriginal;
-	console.log("changeLayout >>original",imgHeight,imgWidth)
+	//console.log("changeLayout >>original",imgHeight,imgWidth)
 	var heightRatio= canvasHeight /imgHeight;
 	var widthRatio= canvasWidth /imgWidth;
 
@@ -281,3 +282,39 @@ async function snapShot() {
 
 }
 
+//Show Frame
+function ShowFrame(val) {
+
+  configurator.setConfiguration({
+                "Show_Frame": val
+            })
+
+}
+//set Frame Color
+function setFrame(colorVal){
+    var borderAssetID;
+    imageMagickObj.FrameCol = colorVal;
+
+    if (colorVal==='White'){
+    borderAssetID="f43bced3-f475-4cc3-891d-dc831a928152";
+    }
+    else if (colorVal==='Natural'){
+    borderAssetID="c7b8cefc-eea1-477c-a563-0b6ce8d61bb7";
+    }
+    else if (colorVal==='Gold'){
+    borderAssetID="c4975285-a10d-457f-a5ab-d1dc5bb521f3";
+    }
+    else if (colorVal==='Expresso'){
+    borderAssetID="bb94b433-e39f-4105-b250-2e503de94092";
+   
+    }
+	 else if (colorVal==='Black'){
+    borderAssetID="b4ed77ee-44ec-4f54-b115-93a2b99c8eda";
+   
+    }
+    else {
+    borderAssetID="b4ed77ee-44ec-4f54-b115-93a2b99c8eda"; //black
+    
+    }
+    configurator.setConfiguration({"Custom_Frame_Color" : {assetId :borderAssetID}}); 
+}
